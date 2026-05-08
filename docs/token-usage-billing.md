@@ -7,15 +7,15 @@ Goal: clients should pay for model usage instead of you silently absorbing unlim
 Client-facing pricing:
 
 ```text
-Демо-бот: 4 000 ₽
-Полная настройка после демо: +8 000 ₽
-Использование модели оплачивается по фактическому расходу токенов.
+Тестовая версия: 4 000 ₽, ограниченный тестовый лимит.
+Обычная версия: 8 000 ₽, пакет токенов включен.
+После включенного пакета токены пополняются отдельно.
 ```
 
 Better wording:
 
 ```text
-В демо включен небольшой тестовый лимит. После полной настройки использование считается по токенам: раз в месяц вы получаете короткий отчет и оплачиваете фактический расход модели.
+В тестовой версии есть небольшой лимит, чтобы проверить работу. В обычной версии пакет токенов включен сразу. Когда пакет заканчивается, его можно пополнить через Telegram.
 ```
 
 Do not say "unlimited".
@@ -25,9 +25,9 @@ Do not say "unlimited".
 For first clients:
 
 - Demo payment: **4 000 ₽**.
-- Full setup after working bot link: **8 000 ₽**.
+- Regular version: **8 000 ₽** with included token package.
 - First month hosting: included.
-- Model usage: metered.
+- Model usage: metered internally.
 - Minimum monthly usage invoice: **100 ₽** while testing.
 - Later minimum invoice: **300-500 ₽** after you have stable demand.
 - Monthly managed support: **2 000-4 000 ₽/month** after first month, separate from tokens.
@@ -179,4 +179,3 @@ For MVP, `2x` is reasonable. If support load is high, move to:
 ```text
 2 000-4 000 ₽/мес managed support + usage at 1.5x-2x provider cost.
 ```
-

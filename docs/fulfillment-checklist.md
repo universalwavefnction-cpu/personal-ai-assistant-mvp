@@ -13,8 +13,8 @@ Internal checklist for delivering the MVP manually.
   - user understands the first month is managed by you;
   - user understands long-term hosting/model/support can become a monthly plan or be migrated to their own infrastructure.
 - [ ] Offer either:
-  - Demo bot: 4 000 ₽;
-  - Full setup after working demo link: +8 000 ₽;
+  - Test version: 4 000 ₽ with limited test usage;
+  - Regular version: 8 000 ₽ with token package included;
   - Custom Soul for expert/team: priced separately, from 40 000 ₽.
 
 ## 1. Payment
@@ -22,8 +22,8 @@ Internal checklist for delivering the MVP manually.
 - [ ] Send payment method/link/invoice.
 - [ ] Confirm payment manually.
 - [ ] Send post-payment brief from `docs/onboarding-brief.md`.
-- [ ] For demo: set delivery clock to 24 hours after one scenario is received.
-- [ ] For full setup: set delivery clock to 2 days after materials are received.
+- [ ] For test version: set delivery clock to 24 hours after one scenario is received.
+- [ ] For regular version: set delivery clock to 24 hours after short brief and materials are received.
 
 ## 2. Materials intake
 
@@ -46,8 +46,8 @@ Internal checklist for delivering the MVP manually.
 - [ ] Track per-client usage manually.
 - [ ] Log token usage through `usage/usage.js` after every model call or at least once per day from logs.
 - [ ] Set default usage cap:
-  - demo: 20 messages or 100 ₽ provider-cost ceiling;
-  - full setup: 500 ₽ monthly usage ceiling until client approves more.
+  - test version: limited test ceiling;
+  - regular version: included token package, then top-up only after client approval.
 - [ ] If client requests full ownership later:
   - send `docs/server-instruction.md`;
   - migrate bot/profile/files to client-owned VPS;

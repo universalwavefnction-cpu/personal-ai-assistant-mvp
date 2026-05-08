@@ -24,6 +24,7 @@ Provider note:
 - `docs/fulfillment-checklist.md` - internal setup checklist.
 - `docs/onboarding-brief.md` - detailed client brief after payment.
 - `docs/outbound.md` - first-sales scripts and lead plan.
+- `docs/avito-listing.md` - ready Avito listing, chat replies, and visual guidance.
 - `docs/server-instruction.md` - internal VPS instruction, plus optional client-owned migration path.
 
 ## Local preview

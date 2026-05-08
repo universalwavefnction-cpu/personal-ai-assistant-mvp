@@ -6,14 +6,12 @@ This is the correct MVP flow if you want the client to click and receive a worki
 
 ```text
 Landing
-  -> clicks "Получить демо за 4 000 ₽"
+  -> chooses test version or regular version
   -> sends short request in Telegram
-  -> pays 4 000 ₽
-  -> sends one scenario
-  -> receives bot link
+  -> pays 4 000 ₽ or 8 000 ₽
+  -> sends scenario/materials
+  -> receives Telegram bot link
   -> tests assistant in Telegram
-  -> pays +8 000 ₽ if useful
-  -> sends full materials
 ```
 
 Client does not see:
@@ -101,10 +99,10 @@ Telegram supports bot ownership transfer through BotFather, but treat this as a 
 ## Recommended pricing for managed flow
 
 ```text
-Демо-бот - 4 000 ₽
-Полная настройка после демо - +8 000 ₽
+Тестовая версия - 4 000 ₽, ограниченный тестовый лимит
+Обычная версия - 8 000 ₽, пакет токенов включен
 Первый месяц managed-размещения включен.
-Расход AI-модели оплачивается по фактическим токенам.
+После пакета токены пополняются отдельно.
 После первого месяца: сопровождение и размещение от 2 000-4 000 ₽/мес + usage.
 ```
 
