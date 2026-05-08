@@ -642,37 +642,9 @@ h3 {
   line-height: 1;
 }
 
-.price-card ul {
-  display: grid;
-  gap: 16px;
-  padding: 0;
-  margin: 26px 0;
-  list-style: none;
-}
-
-.price-card li {
-  position: relative;
-  padding-left: 32px;
-}
-
-.price-card li::before {
-  position: absolute;
-  top: 0.35em;
-  left: 0;
-  display: grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  content: "";
-  border-radius: 50%;
-  background:
-    linear-gradient(135deg, transparent 43%, #F6F8F7 44% 56%, transparent 57%),
-    var(--teal);
-}
-
 .full {
   width: 100%;
-  margin-top: auto;
+  margin-top: 24px;
 }
 
 .pricing-note {
