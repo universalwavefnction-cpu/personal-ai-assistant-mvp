@@ -37,7 +37,6 @@ if (telegramDemoVideo) {
 
   telegramDemoVideo.addEventListener("loadeddata", () => {
     phoneFrame?.classList.add("has-demo-video");
-    telegramDemoVideo.play().catch(() => {});
   });
 
   telegramDemoVideo.addEventListener("error", () => {
