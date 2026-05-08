@@ -16,8 +16,8 @@ Provider note:
 
 - `index.html` - Russian landing page.
 - `styles.css` - premium, restrained visual system.
-- `app.js` - product selector that opens the correct Lava.top payment link.
-- `functions/api/lead.js` - optional Cloudflare Pages Function for a future pre-payment lead flow; not used in the current pay-first funnel.
+- `app.js` - onboarding form that saves the lead locally, opens the Lava.top payment link, then sends the lead after a success return.
+- `functions/api/lead.js` - Cloudflare Pages Function that sends paid leads to your Telegram bot.
 - `docs/costs.md` - launch and operating cost calculation.
 - `docs/managed-flow.md` - exact client-facing and behind-the-scenes flow.
 - `docs/token-usage-billing.md` - token metering and usage billing rules.
@@ -39,8 +39,16 @@ No build step is required.
 
 ## Before publishing
 
-1. Deploy the repo to Cloudflare Pages.
-2. Payment uses fixed Lava.top product links in `app.js`:
+1. Create a Telegram bot through `@BotFather`.
+2. Deploy the repo to Cloudflare Pages.
+3. Add Cloudflare Pages environment variables:
+
+```text
+TELEGRAM_BOT_TOKEN=token from BotFather
+TELEGRAM_ADMIN_CHAT_ID=your Telegram chat id
+```
+
+4. Payment uses fixed Lava.top product links in `app.js`:
 
 ```js
 const LAVA_TOP_PAYMENT_LINKS = {
@@ -49,22 +57,32 @@ const LAVA_TOP_PAYMENT_LINKS = {
 };
 ```
 
-3. Telegram contact is configured in `app.js`:
+5. Telegram contact is configured in `app.js`:
 
 ```js
 const CONTACT_TELEGRAM = "universal_wavefunction";
 ```
 
-4. Make sure each Lava.top product has after-payment instructions that tell the buyer to message `@universal_wavefunction`.
+6. In Lava.top, set the success return URL for both products to:
 
-5. Replace placeholder brand text if you choose a public name.
+```text
+https://wavebotai.ru/?payment=success
+```
+
+Optional failed-payment return:
+
+```text
+https://wavebotai.ru/?payment=fail
+```
+
+7. Replace placeholder brand text if you choose a public name.
 
 ## Recommended MVP stack
 
 - Landing: this static page on Cloudflare Pages, GitHub Pages, Netlify, or Tilda.
-- Form: pay-first selector. It does not send pre-payment leads.
+- Form: short brief before payment, saved in the browser until payment success return.
 - Payment: direct Lava.top product links for the 4 000 ₽ test version and 8 000 ₽ regular version.
-- Post-payment contact: buyer messages `@universal_wavefunction` from Lava.top after-payment instructions.
+- Post-payment lead: when Lava.top returns to `?payment=success`, the saved brief is sent to Telegram through `/api/lead`.
 - Fulfillment: manual Hermes setup on your managed VPS for the first month.
 - Usage billing: `usage/usage.js` JSONL ledger at MVP stage.
 - CRM: a simple spreadsheet.
@@ -93,7 +111,7 @@ Custom Soul для эксперта или команды - от 40 000 ₽.
 ## Client-facing flow
 
 ```text
-Landing -> choose version -> Lava.top payment -> buyer messages @universal_wavefunction -> onboarding brief -> you create bot/server/profile -> client receives Telegram bot link.
+Landing -> short brief -> Lava.top payment -> success return -> paid lead arrives in Telegram -> onboarding brief if needed -> you create bot/server/profile -> client receives Telegram bot link.
 ```
 
 The client does not need to touch BotFather or VPS for the MVP pilot.
