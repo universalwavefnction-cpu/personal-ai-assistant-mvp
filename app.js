@@ -1,6 +1,4 @@
 const CONTACT_TELEGRAM = "your_username";
-const YOOMONEY_TEST_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
-const YOOMONEY_REGULAR_URL = "https://yoomoney.ru/to/YOUR_WALLET/8000";
 
 const leadForm = document.getElementById("leadForm");
 const leadStatus = document.getElementById("leadStatus");
@@ -9,15 +7,6 @@ const telegramDemoVideo = document.getElementById("telegramDemoVideo");
 const videoPlayOverlay = document.getElementById("videoPlayOverlay");
 const telegramContactLinks = document.querySelectorAll(".js-telegram-contact");
 const productChoiceLinks = document.querySelectorAll(".js-product-choice");
-
-function getPaymentUrl(product) {
-  return product === "regular" ? YOOMONEY_REGULAR_URL : YOOMONEY_TEST_URL;
-}
-
-function hasConfiguredYooMoneyLink(product) {
-  const url = getPaymentUrl(product);
-  return url.startsWith("https://yoomoney.ru/") && !url.includes("YOUR_WALLET");
-}
 
 telegramContactLinks.forEach((link) => {
   if (CONTACT_TELEGRAM !== "your_username") {
@@ -128,27 +117,23 @@ leadForm.addEventListener("submit", async (event) => {
 
   submitButton.disabled = true;
   submitButton.textContent = "Отправляю...";
-  leadStatus.textContent = "Отправляю заявку в Telegram...";
+  leadStatus.textContent = "Создаю счет Lava...";
 
   try {
-    const response = await fetch("/api/lead", {
+    const response = await fetch("/api/create-payment", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, telegram, product, reason, text })
     });
+    const result = await response.json().catch(() => ({}));
 
-    if (!response.ok) {
-      throw new Error("Lead endpoint is not available");
+    if (!response.ok || !result.ok || !result.paymentUrl) {
+      throw new Error(result.error || "Payment endpoint is not available");
     }
 
-    if (hasConfiguredYooMoneyLink(product)) {
-      leadStatus.textContent = "Заявка отправлена. Открываю оплату YooMoney...";
-      window.location.href = getPaymentUrl(product);
-    } else {
-      leadStatus.textContent = "Заявка отправлена. Подключите YooMoney-ссылку в app.js перед публикацией.";
-    }
-
+    leadStatus.textContent = "Заявка отправлена. Открываю оплату Lava...";
     leadForm.reset();
+    window.location.href = result.paymentUrl;
   } catch (error) {
     try {
       await navigator.clipboard.writeText(text);
@@ -156,9 +141,9 @@ leadForm.addEventListener("submit", async (event) => {
 
     if (CONTACT_TELEGRAM !== "your_username") {
       window.open(`https://t.me/${CONTACT_TELEGRAM}`, "_blank", "noopener,noreferrer");
-      leadStatus.textContent = "Открыл Telegram и скопировал текст заявки. Отправьте его мне в чат.";
+      leadStatus.textContent = "Не удалось создать счет. Открыл Telegram и скопировал текст заявки.";
     } else {
-      leadStatus.textContent = "Серверная отправка еще не подключена. Укажите Telegram-контакт или подключите lead-бота.";
+      leadStatus.textContent = "Оплата еще не подключена. Добавьте Lava-переменные в Cloudflare Pages.";
     }
   } finally {
     submitButton.disabled = false;

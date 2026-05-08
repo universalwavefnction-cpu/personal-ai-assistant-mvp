@@ -18,6 +18,7 @@ Provider note:
 - `styles.css` - premium, restrained visual system.
 - `app.js` - Telegram lead form with static fallback.
 - `functions/api/lead.js` - Cloudflare Pages Function that sends leads to your Telegram bot.
+- `functions/api/create-payment.js` - Cloudflare Pages Function that creates Lava invoices server-side.
 - `docs/costs.md` - launch and operating cost calculation.
 - `docs/managed-flow.md` - exact client-facing and behind-the-scenes flow.
 - `docs/token-usage-billing.md` - token metering and usage billing rules.
@@ -46,18 +47,21 @@ No build step is required.
 ```text
 TELEGRAM_BOT_TOKEN=token from BotFather
 TELEGRAM_ADMIN_CHAT_ID=your Telegram chat id
+LAVA_SHOP_ID=your Lava shop id
+LAVA_SECRET_KEY=your Lava API secret key
 ```
 
-4. Edit `app.js` and replace:
+Never put `LAVA_SECRET_KEY` in `app.js`, `index.html`, or any frontend file.
 
-```js
-const YOOMONEY_TEST_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
-const YOOMONEY_REGULAR_URL = "https://yoomoney.ru/to/YOUR_WALLET/8000";
+4. Optional payment return URLs:
+
+```text
+LAVA_SUCCESS_URL=https://your-domain.ru/?payment=success
+LAVA_FAIL_URL=https://your-domain.ru/?payment=fail
+LAVA_HOOK_URL=https://your-domain.ru/api/lava-webhook
 ```
 
-with your real YooMoney payment links for the 4 000 ₽ test version and 8 000 ₽ regular version.
-
-5. Optional fallback: in the same file replace:
+5. Optional fallback: in `app.js` replace:
 
 ```js
 const CONTACT_TELEGRAM = "your_username";
@@ -71,7 +75,7 @@ with your real Telegram username without `@`. This is used only if the serverles
 
 - Landing: this static page on Cloudflare Pages, GitHub Pages, Netlify, or Tilda.
 - Form: Cloudflare Pages Function sends the request to your Telegram bot. Static fallback opens Telegram and copies the request text.
-- Payment: YooMoney payment link for the demo.
+- Payment: Lava invoice created server-side through Cloudflare Pages Function.
 - Fulfillment: manual Hermes setup on your managed VPS for the first month.
 - Usage billing: `usage/usage.js` JSONL ledger at MVP stage.
 - CRM: a simple spreadsheet.
