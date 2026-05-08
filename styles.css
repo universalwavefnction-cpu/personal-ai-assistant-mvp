@@ -17,6 +17,10 @@
   --gold: #C7A86B;
   --gold-dark: #735B26;
   --shadow: 0 20px 50px rgba(7, 25, 35, 0.05);
+  --shadow-lift: 0 26px 62px rgba(7, 25, 35, 0.1);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 180ms;
+  --medium: 420ms;
   --container: 1120px;
 }
 
@@ -97,6 +101,11 @@ textarea {
   color: var(--teal);
 }
 
+.nav-links a,
+.site-footer a {
+  transition: color var(--fast) ease;
+}
+
 .header-cta,
 .primary-button,
 .secondary-button {
@@ -109,6 +118,12 @@ textarea {
   border-radius: 14px;
   cursor: pointer;
   font-weight: 700;
+  transition:
+    transform var(--fast) ease,
+    background-color var(--fast) ease,
+    border-color var(--fast) ease,
+    box-shadow var(--fast) ease,
+    color var(--fast) ease;
 }
 
 .header-cta {
@@ -128,24 +143,28 @@ textarea {
 }
 
 .primary-button:hover {
+  transform: translateY(-2px);
   background: #D8BB80;
+  box-shadow: 0 14px 34px rgba(199, 168, 107, 0.18);
 }
 
 .secondary-button:hover {
+  transform: translateY(-2px);
   background: rgba(47, 134, 183, 0.08);
 }
 
 .header-cta:hover {
+  transform: translateY(-1px);
   background: var(--teal-dark);
 }
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 340px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 315px);
   align-items: center;
-  gap: 80px;
-  min-height: 760px;
-  padding: 160px max(24px, calc((100% - var(--container)) / 2)) 120px;
+  gap: 64px;
+  min-height: 660px;
+  padding: 132px max(24px, calc((100% - var(--container)) / 2)) 88px;
   overflow: hidden;
   color: var(--panel-solid);
   background: var(--deep-ink);
@@ -170,7 +189,7 @@ textarea {
   order: 2;
   z-index: 1;
   width: 100%;
-  min-height: 620px;
+  min-height: 540px;
 }
 
 .phone-frame {
@@ -179,13 +198,14 @@ textarea {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 620px;
-  padding: 22px;
+  min-height: 540px;
+  padding: 18px;
   overflow: hidden;
   border: 10px solid #1C2C35;
   border-radius: 56px;
   background: #0A1A22;
   box-shadow: 0 50px 100px rgba(0, 0, 0, 0.34);
+  animation: phone-drift 7s ease-in-out infinite;
 }
 
 .phone-frame::before {
@@ -211,7 +231,7 @@ textarea {
 .phone-status {
   display: flex;
   justify-content: space-between;
-  padding: 18px 16px 16px;
+  padding: 16px 14px 14px;
   color: var(--sky);
   font-size: 0.82rem;
   font-weight: 760;
@@ -228,7 +248,7 @@ textarea {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px;
+  padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.08);
@@ -261,9 +281,9 @@ textarea {
   display: grid;
   place-items: end start;
   flex: 1;
-  min-height: 430px;
-  margin-top: 18px;
-  padding: 28px;
+  min-height: 365px;
+  margin-top: 16px;
+  padding: 22px;
   border: 1px solid rgba(47, 134, 183, 0.3);
   border-radius: 28px;
   background: rgba(47, 134, 183, 0.16);
@@ -273,8 +293,8 @@ textarea {
   display: none;
   flex: 1;
   width: 100%;
-  min-height: 430px;
-  margin-top: 18px;
+  min-height: 365px;
+  margin-top: 16px;
   object-fit: cover;
   border: 1px solid rgba(142, 198, 232, 0.24);
   border-radius: 28px;
@@ -290,9 +310,9 @@ textarea {
 }
 
 .play-mark {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 110px;
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 78px;
   border-radius: 50%;
   background: var(--panel-solid);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
@@ -302,7 +322,7 @@ textarea {
   display: block;
   width: 0;
   height: 0;
-  margin: 22px 0 0 29px;
+  margin: 19px 0 0 26px;
   content: "";
   border-top: 14px solid transparent;
   border-bottom: 14px solid transparent;
@@ -350,7 +370,7 @@ p {
 h1 {
   max-width: 720px;
   margin-bottom: 24px;
-  font-size: 4.25rem;
+  font-size: 3.72rem;
   line-height: 1.06;
   letter-spacing: 0;
 }
@@ -358,36 +378,36 @@ h1 {
 h2 {
   max-width: 900px;
   margin-bottom: 0;
-  font-size: 3rem;
+  font-size: 2.42rem;
   line-height: 1.12;
   letter-spacing: 0;
 }
 
 h3 {
   margin-bottom: 12px;
-  font-size: 1.35rem;
+  font-size: 1.18rem;
   line-height: 1.3;
 }
 
 .hero-copy {
   max-width: 600px;
-  margin-bottom: 34px;
+  margin-bottom: 28px;
   color: rgba(246, 248, 247, 0.76);
-  font-size: 1.12rem;
-  line-height: 1.75;
+  font-size: 1.04rem;
+  line-height: 1.68;
 }
 
 .hero-actions {
   flex-wrap: wrap;
-  gap: 18px;
-  margin-bottom: 22px;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
 .hero-actions .primary-button,
 .hero-actions .secondary-button {
   min-height: 60px;
-  padding: 18px 30px;
-  font-size: 1rem;
+  padding: 16px 24px;
+  font-size: 0.96rem;
 }
 
 .hero .secondary-button {
@@ -405,11 +425,11 @@ h3 {
 .section {
   width: min(var(--container), calc(100% - 48px));
   margin: 0 auto;
-  padding: 144px 0;
+  padding: 104px 0;
 }
 
 .section-heading {
-  margin-bottom: 72px;
+  margin-bottom: 48px;
 }
 
 .advantages-section,
@@ -469,12 +489,27 @@ h3 {
   background: var(--panel);
   box-shadow: var(--shadow);
   backdrop-filter: blur(12px);
+  transition:
+    transform var(--medium) var(--ease),
+    box-shadow var(--medium) var(--ease),
+    border-color var(--medium) var(--ease),
+    background-color var(--medium) var(--ease);
 }
 
 .advantage-grid article,
 .case-grid article {
-  min-height: 232px;
-  padding: 40px;
+  min-height: 202px;
+  padding: 30px;
+}
+
+.advantage-grid article:hover,
+.case-grid article:hover,
+.price-card:hover,
+.business-card:hover,
+.faq-list details:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lift);
+  border-color: rgba(47, 134, 183, 0.18);
 }
 
 .advantage-grid p,
@@ -495,7 +530,7 @@ h3 {
   justify-content: center;
   width: 56px;
   height: 56px;
-  margin-bottom: 26px;
+  margin-bottom: 20px;
   color: var(--teal);
   border-radius: 18px;
   background: rgba(47, 134, 183, 0.1);
@@ -507,8 +542,8 @@ h3 {
   grid-template-columns: auto 1fr;
   gap: 10px 16px;
   align-content: start;
-  min-height: 160px;
-  padding: 30px;
+  min-height: 142px;
+  padding: 24px;
 }
 
 .case-grid article p {
@@ -526,13 +561,13 @@ h3 {
 .included-section {
   display: grid;
   grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.45fr);
-  gap: 96px;
+  gap: 72px;
   align-items: start;
 }
 
 .included-section .section-heading {
   position: sticky;
-  top: 120px;
+  top: 112px;
   margin-bottom: 0;
 }
 
@@ -546,8 +581,8 @@ h3 {
   position: relative;
   display: grid;
   grid-template-columns: 72px 1fr;
-  gap: 28px;
-  padding: 0 0 52px;
+  gap: 24px;
+  padding: 0 0 42px;
 }
 
 .included-item::before {
@@ -574,7 +609,7 @@ h3 {
 
 .included-item strong {
   grid-column: 2;
-  font-size: 1.28rem;
+  font-size: 1.16rem;
 }
 
 .included-item span {
@@ -585,7 +620,7 @@ h3 {
 .price-card {
   display: flex;
   flex-direction: column;
-  padding: 40px;
+  padding: 32px;
 }
 
 .price-card.featured {
@@ -603,7 +638,7 @@ h3 {
 .price {
   margin-bottom: 14px;
   color: var(--teal);
-  font-size: 3.6rem;
+  font-size: 3.05rem;
   font-weight: 840;
   line-height: 1;
 }
@@ -612,7 +647,7 @@ h3 {
   display: grid;
   gap: 16px;
   padding: 0;
-  margin: 32px 0;
+  margin: 26px 0;
   list-style: none;
 }
 
@@ -643,7 +678,7 @@ h3 {
 
 .pricing-note {
   max-width: 760px;
-  margin: 40px auto 0;
+  margin: 30px auto 0;
   text-align: center;
   font-style: italic;
 }
@@ -659,7 +694,7 @@ h3 {
 .request-result {
   display: grid;
   gap: 22px;
-  padding: 40px;
+  padding: 32px;
 }
 
 .lead-form label {
@@ -681,12 +716,18 @@ h3 {
   padding: 16px;
   color: var(--ink);
   background: rgba(240, 244, 248, 0.68);
+  transition:
+    border-color var(--fast) ease,
+    background-color var(--fast) ease,
+    box-shadow var(--fast) ease;
 }
 
 .lead-form input:focus,
 .lead-form textarea:focus {
   outline: 0;
   border-color: var(--teal);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: inset 0 -1px 0 var(--teal);
 }
 
 .form-note {
@@ -727,7 +768,7 @@ h3 {
 }
 
 .business-card {
-  padding: 40px;
+  padding: 32px;
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.05);
   box-shadow: none;
@@ -738,7 +779,7 @@ h3 {
 }
 
 .business-cta {
-  margin-top: 32px;
+  margin-top: 26px;
 }
 
 .faq-list {
@@ -756,11 +797,12 @@ h3 {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  padding: 30px 34px;
+  padding: 24px 28px;
   cursor: pointer;
   font-size: 1.05rem;
   font-weight: 800;
   list-style: none;
+  transition: color var(--fast) ease, background-color var(--fast) ease;
 }
 
 .faq-list summary::-webkit-details-marker {
@@ -778,9 +820,13 @@ h3 {
   content: "-";
 }
 
+.faq-list summary:hover {
+  color: var(--teal);
+}
+
 .faq-list p {
   margin: 0;
-  padding: 0 34px 30px;
+  padding: 0 28px 24px;
 }
 
 .site-footer {
@@ -788,7 +834,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 56px max(24px, calc((100% - var(--container)) / 2));
+  padding: 44px max(24px, calc((100% - var(--container)) / 2));
   color: var(--ink);
   border-top: 1px solid rgba(191, 199, 208, 0.3);
   background: var(--panel-solid);
@@ -813,6 +859,30 @@ main > section,
   scroll-margin-top: 100px;
 }
 
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.motion-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 620ms var(--ease),
+    transform 620ms var(--ease);
+  transition-delay: var(--motion-delay, 0ms);
+}
+
+@keyframes phone-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 @media (max-width: 1120px) {
   .site-header,
   .hero,
@@ -823,7 +893,7 @@ main > section,
 
   .hero {
     grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
-    gap: 54px;
+    gap: 44px;
   }
 
   .case-grid {
@@ -871,16 +941,16 @@ main > section,
   }
 
   h1 {
-    font-size: 3.05rem;
+    font-size: 2.8rem;
   }
 
   h2 {
-    font-size: 2.25rem;
+    font-size: 2.05rem;
   }
 
   .section {
     width: min(100% - 32px, 720px);
-    padding: 84px 0;
+    padding: 72px 0;
   }
 
   .advantage-grid,
@@ -916,15 +986,15 @@ main > section,
   }
 
   .hero {
-    padding: 112px 16px 82px;
+    padding: 104px 16px 74px;
   }
 
   h1 {
-    font-size: 2.45rem;
+    font-size: 2.25rem;
   }
 
   h2 {
-    font-size: 1.85rem;
+    font-size: 1.68rem;
   }
 
   .hero-copy {
