@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Личный AI-ассистент в Telegram</title>
+    <meta
+      name="description"
+      content="Личный AI-ассистент в Telegram. Без возни с подписками, VPN, серверами и настройками."
+    >
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="site-header" aria-label="Навигация">
+      <a class="brand" href="#top" aria-label="Личный AI-ассистент">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>AI-ассистент</span>
+      </a>
+      <nav class="nav-links" aria-label="Разделы страницы">
+        <a href="#cases">Сценарии</a>
+        <a href="#pricing">Цена</a>
+        <a href="#business">Бизнес</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="header-cta" href="#request">Оставить заявку</a>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-visual" aria-label="Место для записи экрана Telegram-демо">
+          <div class="phone-frame">
+            <div class="phone-status" aria-hidden="true">
+              <span>9:41</span>
+              <span></span>
+            </div>
+            <div class="telegram-header">
+              <span class="bot-avatar" aria-hidden="true">AI</span>
+              <div>
+                <strong>Ваш AI-ассистент</strong>
+                <span>online</span>
+              </div>
+            </div>
+            <div class="recording-placeholder">
+              <div class="play-mark" aria-hidden="true"></div>
+              <p>Здесь будет запись экрана Telegram</p>
+              <span>20-40 секунд: голосовое, файл, ответ ассистента</span>
+            </div>
+            <video
+              class="telegram-demo-video"
+              id="telegramDemoVideo"
+              src="./assets/telegram-demo.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="Демонстрация Telegram-ассистента"
+            ></video>
+          </div>
+        </div>
+        <div class="hero-inner">
+          <p class="eyebrow">MVP-пилот: демо за 4 000 ₽</p>
+          <h1>Личный AI-ассистент в Telegram одним кликом</h1>
+          <p class="hero-copy">
+            Забудьте про возню с подписками, VPN, серверами и настройками.
+            Под капотом - лучшие AI-модели с возможностью смены. Кастомный бот
+            прилетает вам рабочей ссылкой в течение нескольких часов.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#request">Получить демо за 4 000 ₽</a>
+            <a class="secondary-button" href="#examples">Посмотреть примеры</a>
+          </div>
+          <p class="hero-note">
+            Доступны Claude, ChatGPT, Gemini и другие AI-модели с оплатой по токенам.
+            Также можно подключить вашу личную или бизнес-подписку.
+          </p>
+        </div>
+      </section>
+
+      <section class="section advantages-section">
+        <div class="section-heading">
+          <p class="eyebrow">Преимущества</p>
+          <h2>Это не разовый чат. Это система, которая растет вместе с вами.</h2>
+        </div>
+        <div class="advantage-grid">
+          <article>
+            <span class="index">01</span>
+            <h3>Память и контекст</h3>
+            <p>Ассистент учитывает ваши материалы, последние разговоры, проекты, правила и стиль. Не нужно каждый раз объяснять все заново.</p>
+          </article>
+          <article>
+            <span class="index">02</span>
+            <h3>Становится умнее с вами</h3>
+            <p>Вы добавляете файлы, заметки, примеры, задачи и обратную связь. Система постепенно лучше понимает, как вам помогать.</p>
+          </article>
+          <article>
+            <span class="index">03</span>
+            <h3>Вторая пара рук за несколько дней</h3>
+            <p>Пишите или надиктовывайте в Telegram, а ассистент понимает голос почти как человек: разбирает смысл, уточняет и отвечает по делу.</p>
+          </article>
+          <article>
+            <span class="index">04</span>
+            <h3>Работает с файлами</h3>
+            <p>PDF, заметки, конспекты, инструкции, статьи, скрипты, черновики и рабочие материалы становятся доступными прямо из чата.</p>
+          </article>
+          <article>
+            <span class="index">05</span>
+            <h3>Создает, пишет, кодит</h3>
+            <p>Может помогать с постами, письмами, сайтами, кодом, прототипами, таблицами, исследованиями и любыми задачами, где нужен сильный интеллект.</p>
+          </article>
+          <article>
+            <span class="index">06</span>
+            <h3>Смена моделей под задачу</h3>
+            <p>Можно использовать разные AI-модели: для быстрых ответов, глубокого мышления, кода, документов или бизнес-задач. Следующий шаг - звонки с ассистентом.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section use-cases" id="cases">
+        <div class="section-heading">
+          <p class="eyebrow">Возможности</p>
+          <h2>Набор способностей прямо в Telegram.</h2>
+        </div>
+        <div class="case-grid">
+          <article><span class="capability-icon">&lt;/&gt;</span><h3>Кодит</h3><p>Скрипты, прототипы, правки, автоматизация и разбор ошибок.</p></article>
+          <article><span class="capability-icon">◉</span><h3>Понимает голос</h3><p>Надиктовываете как человеку, он выделяет смысл и следующий шаг.</p></article>
+          <article><span class="capability-icon">↗</span><h3>Отвечает голосом</h3><p>Можно получать короткие голосовые ответы там, где текст неудобен.</p></article>
+          <article><span class="capability-icon">⌕</span><h3>Исследует</h3><p>Собирает факты, сравнивает варианты, делает выводы и краткие сводки.</p></article>
+          <article><span class="capability-icon">▣</span><h3>Читает файлы</h3><p>PDF, заметки, статьи, конспекты, таблицы, инструкции и черновики.</p></article>
+          <article><span class="capability-icon">⌘</span><h3>Создает сайты</h3><p>Помогает собрать лендинг, страницу, демо или рабочий прототип.</p></article>
+          <article><span class="capability-icon">↻</span><h3>Автоматизирует процессы</h3><p>Превращает повторяющиеся действия в понятный сценарий и помогает выполнять его быстрее.</p></article>
+          <article><span class="capability-icon">✓</span><h3>Ведет задачи</h3><p>Списки, напоминания, чеклисты, следующие шаги и утренние брифы.</p></article>
+        </div>
+      </section>
+
+      <section class="section included-section" id="examples">
+        <div class="section-heading">
+          <p class="eyebrow">Как это работает</p>
+          <h2>Вы даете контекст. Я собираю бота на сервере. Вам прилетает рабочая ссылка.</h2>
+        </div>
+        <div class="included-layout">
+          <div class="included-list">
+            <div class="included-item">
+              <strong>1. Заполняете форму</strong>
+              <span>Имя, Telegram, зачем нужен ассистент, какие задачи, какой стиль ответа, какие материалы он должен знать.</span>
+            </div>
+            <div class="included-item">
+              <strong>2. Бот создается на сервере</strong>
+              <span>Я поднимаю Telegram-бота, подключаю модель, память, материалы и базовый профиль ассистента.</span>
+            </div>
+            <div class="included-item">
+              <strong>3. Получаете ссылку</strong>
+              <span>Вам приходит рабочая ссылка на Telegram-бота. Открываете, пишете или надиктовываете задачу, он отвечает как задумано.</span>
+            </div>
+            <div class="included-item">
+              <strong>4. Токены под контролем</strong>
+              <span>В обычную цену входит ограниченный пакет токенов. Вы всегда видите расход и можете пополнить баланс, когда нужно.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section pricing-section" id="pricing">
+        <div class="section-heading">
+          <p class="eyebrow">Цена MVP</p>
+          <h2>Стартовые цены для первых отзывов. Рабочая ссылка за 24 часа.</h2>
+        </div>
+        <div class="pricing-grid">
+          <article class="price-card featured">
+            <div class="price-topline">Первый шаг</div>
+            <h3>Демо-бот</h3>
+            <p class="price">4 000 ₽</p>
+            <p class="price-caption">Гарантированно отправлю рабочую ссылку на Telegram-бота в течение 24 часов. Обычно получается за несколько часов.</p>
+            <ul>
+              <li>Один Telegram-бот для теста</li>
+              <li>1 сценарий под вашу задачу</li>
+              <li>Небольшой пакет токенов для проверки</li>
+              <li>Ссылка на работающего бота</li>
+              <li>MVP-цена, потому что проект новый и нужны первые отзывы</li>
+            </ul>
+            <a class="primary-button full" href="#request">Собрать демо</a>
+          </article>
+          <article class="price-card">
+            <div class="price-topline">После демо</div>
+            <h3>Полная настройка</h3>
+            <p class="price">+8 000 ₽</p>
+            <p class="price-caption">Если демо полезно, расширяю бота: материалы, профиль, голосовые, правки и пакет токенов включены.</p>
+            <ul>
+              <li>До 10 материалов</li>
+              <li>3 рабочих сценария</li>
+              <li>Голосовые</li>
+              <li>Personal Soul или простой Expert Soul</li>
+              <li>Стартовые условия для первых кейсов и отзывов</li>
+            </ul>
+            <a class="secondary-button full" href="#request">Запросить условия</a>
+          </article>
+        </div>
+        <p class="pricing-note">
+          Цена ниже обычной, пока собираются первые отзывы и кейсы. Не пропустите ранние условия:
+          рабочую ссылку гарантирую в течение 24 часов после оплаты и короткого брифа, чаще отправляю за несколько часов.
+        </p>
+      </section>
+
+      <section class="section form-section" id="request">
+        <div class="form-copy">
+          <p class="eyebrow">Заявка</p>
+          <h2>Получить своего бота</h2>
+          <p>
+            Расскажите, зачем вам нужен бот и что он должен делать. Чем больше контекста
+            вы дадите на старте, тем точнее получится первая настройка: стиль, задачи,
+            материалы, голосовые, ответы и ограничения.
+          </p>
+        </div>
+        <form class="lead-form" id="leadForm">
+          <label>
+            <span>Имя</span>
+            <input name="name" autocomplete="name" required placeholder="Например, Дмитрий">
+          </label>
+          <label>
+            <span>Ваш Telegram</span>
+            <input name="telegram" autocomplete="username" required placeholder="@username">
+          </label>
+          <label>
+            <span>Зачем вам бот?</span>
+            <textarea
+              name="reason"
+              required
+              rows="4"
+              placeholder="Например: хочу бота, который разбирает голосовые, отвечает по моим заметкам, пишет в моем стиле и помогает вести задачи"
+            ></textarea>
+          </label>
+          <button class="primary-button full" type="submit">Сформировать заявку</button>
+          <p class="form-note">Нажимая кнопку, вы готовите текст для отправки в Telegram. Данные никуда не уходят автоматически.</p>
+        </form>
+        <div class="request-result" id="requestResult" hidden>
+          <h3>Текст заявки готов</h3>
+          <pre id="requestText"></pre>
+          <div class="result-actions">
+            <button class="secondary-button" id="copyRequest" type="button">Скопировать</button>
+            <a class="primary-button" id="telegramLink" href="#" target="_blank" rel="noreferrer">Открыть Telegram</a>
+          </div>
+          <p>Замените Telegram-контакт в <code>app.js</code> перед публикацией.</p>
+        </div>
+      </section>
+
+      <section class="section business-section" id="business">
+        <div class="section-heading">
+          <p class="eyebrow">Для бизнеса и подписок</p>
+          <h2>Если нужен бот под бизнес или уже есть AI-подписка, напишите мне.</h2>
+        </div>
+        <div class="business-grid">
+          <article class="business-card">
+            <h3>Глубокая настройка для бизнеса</h3>
+            <p>
+              Для экспертов, команд и владельцев бизнеса можно собрать Custom Soul:
+              тон бренда, FAQ, правила ответов, сценарии продаж, запреты и рабочие процессы.
+            </p>
+          </article>
+          <article class="business-card">
+            <h3>Можно подключить вашу подписку</h3>
+            <p>
+              Если у вас уже есть ChatGPT, Claude, Gemini, Team или Business-подписка,
+              ее можно обсудить и подключить к боту там, где это технически возможно.
+            </p>
+          </article>
+        </div>
+        <a class="primary-button business-cta" href="#request">Связаться и обсудить</a>
+      </section>
+
+      <section class="section faq-section" id="faq">
+        <div class="section-heading">
+          <p class="eyebrow">FAQ</p>
+          <h2>Два практических вопроса перед оплатой.</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Где находится мой бот?</summary>
+            <p>В MVP бот работает на managed-сервере, который я обслуживаю. Вам не нужно покупать сервер, создавать Telegram-бота или разбираться в настройках. Вы получаете рабочую ссылку в Telegram. Если позже нужен полный контроль, бота можно перенести на ваш сервер.</p>
+          </details>
+          <details>
+            <summary>Как пополнять токены через Telegram?</summary>
+            <p>В демо включен небольшой лимит токенов. Когда лимит подходит к концу, вы пишете в Telegram, сколько хотите пополнить, оплачиваете по ссылке или переводом, и я обновляю баланс. Расход и остаток можно видеть заранее, чтобы не было неожиданных списаний.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>AI-ассистент в Telegram</strong>
+        <p>Concierge MVP: ручная настройка, быстрый запуск, без тяжелой SaaS-платформы.</p>
+      </div>
+      <a href="#request">Оставить заявку</a>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
