@@ -154,6 +154,12 @@ AI-агент под ключ за копейки
 
 ## Visuals For Avito
 
+Main cover generated in the repo:
+
+```text
+assets/avito-cover.png
+```
+
 Use 4-5 images:
 
 1. Main cover:
@@ -198,4 +204,3 @@ Use one of these at the top if you want to test the hook:
 ```text
 Пишите голосом, кидайте файлы, просите черновик, код, план или разбор - бот отвечает прямо в Telegram.
 ```
-
