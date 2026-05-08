@@ -8,15 +8,16 @@ BotFather, VPS, Hermes, model routing, and profile setup stay behind the scenes.
 Provider note:
 
 ```text
-Доступны Claude, ChatGPT, Gemini и другие AI-модели с оплатой по токенам.
-Также можно подключить вашу личную или бизнес-подписку.
+В демо включен ограниченный лимит токенов для теста.
+Бот остается вашим: после запуска можно докупить токены через Telegram.
 ```
 
 ## What is included
 
 - `index.html` - Russian landing page.
 - `styles.css` - premium, restrained visual system.
-- `app.js` - Telegram lead form and launch-cost calculator.
+- `app.js` - Telegram lead form with static fallback.
+- `functions/api/lead.js` - Cloudflare Pages Function that sends leads to your Telegram bot.
 - `docs/costs.md` - launch and operating cost calculation.
 - `docs/managed-flow.md` - exact client-facing and behind-the-scenes flow.
 - `docs/token-usage-billing.md` - token metering and usage billing rules.
@@ -37,22 +38,29 @@ No build step is required.
 
 ## Before publishing
 
-1. Edit `app.js`.
-2. Replace:
+1. Create a Telegram bot through `@BotFather`.
+2. Deploy the repo to Cloudflare Pages.
+3. Add Cloudflare Pages environment variables:
+
+```text
+TELEGRAM_BOT_TOKEN=token from BotFather
+TELEGRAM_ADMIN_CHAT_ID=your Telegram chat id
+```
+
+4. Optional fallback: edit `app.js` and replace:
 
 ```js
 const CONTACT_TELEGRAM = "your_username";
 ```
 
-with your real Telegram username without `@`.
+with your real Telegram username without `@`. This is used only if the serverless lead endpoint is not available.
 
-3. Replace placeholder brand text if you choose a public name.
-4. Connect a real form later only after manual sales prove demand.
+5. Replace placeholder brand text if you choose a public name.
 
 ## Recommended MVP stack
 
 - Landing: this static page on Cloudflare Pages, GitHub Pages, Netlify, or Tilda.
-- Form: current no-backend Telegram draft, or Yandex Forms.
+- Form: Cloudflare Pages Function sends the request to your Telegram bot. Static fallback opens Telegram and copies the request text.
 - Payment: manual invoice/payment link first.
 - Fulfillment: manual Hermes setup on your managed VPS for the first month.
 - Usage billing: `usage/usage.js` JSONL ledger at MVP stage.
@@ -67,7 +75,8 @@ Primary:
 Без возни с подписками, VPN, серверами и настройками.
 Под капотом - лучшие AI-модели с возможностью смены.
 Кастомный бот прилетает рабочей ссылкой в течение нескольких часов.
-Демо за 4 000 ₽. Если бот полезен - полная настройка +8 000 ₽ с токенами.
+Демо за 4 000 ₽ с ограниченным лимитом токенов для теста.
+Если бот полезен - полная настройка 8 000 ₽ с включенным пакетом токенов.
 Готов за 24 часа после оплаты демо и получения сценария.
 Первый месяц managed-размещения включен, расход AI-модели оплачивается по токенам.
 ```
