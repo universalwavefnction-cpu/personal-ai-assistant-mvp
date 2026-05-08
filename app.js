@@ -20,6 +20,33 @@ if (telegramDemoVideo) {
   });
 }
 
+const revealTargets = document.querySelectorAll(
+  ".section-heading, .advantage-grid article, .case-grid article, .included-item, .price-card, .form-copy, .lead-form, .business-card, .faq-list details"
+);
+
+if ("IntersectionObserver" in window) {
+  revealTargets.forEach((target, index) => {
+    target.classList.add("reveal");
+    target.style.setProperty("--reveal-delay", `${Math.min(index % 6, 4) * 70}ms`);
+  });
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.16 }
+  );
+
+  revealTargets.forEach((target) => revealObserver.observe(target));
+} else {
+  revealTargets.forEach((target) => target.classList.add("is-visible"));
+}
+
 leadForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(leadForm);
