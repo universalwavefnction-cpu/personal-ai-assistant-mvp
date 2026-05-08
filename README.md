@@ -58,13 +58,7 @@ YOOKASSA_SECRET_KEY=your YooKassa secret key
 YOOKASSA_RETURN_URL=https://wavebotai.ru/?payment=return
 ```
 
-5. Telegram contact is configured in `app.js`:
-
-```js
-const CONTACT_TELEGRAM = "universal_wavefunction";
-```
-
-6. Replace placeholder brand text if you choose a public name.
+5. Replace placeholder brand text if you choose a public name.
 
 ## Recommended MVP stack
 
@@ -72,6 +66,7 @@ const CONTACT_TELEGRAM = "universal_wavefunction";
 - Form: short brief before payment, saved in the browser until YooKassa return.
 - Payment: YooKassa API redirect payment created by `/api/create-payment`.
 - Post-payment lead: when YooKassa returns to `?payment=return`, the site calls `/api/check-payment`; only `succeeded` payments send the saved brief to Telegram.
+- Client-side Telegram links are not part of the payment form; submit should only open payment.
 - Fulfillment: manual Hermes setup on your managed VPS for the first month.
 - Usage billing: `usage/usage.js` JSONL ledger at MVP stage.
 - CRM: a simple spreadsheet.

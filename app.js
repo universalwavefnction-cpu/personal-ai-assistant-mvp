@@ -1,4 +1,3 @@
-const CONTACT_TELEGRAM = "universal_wavefunction";
 const PENDING_LEAD_KEY = "wavebotai_pending_paid_lead";
 const SENT_LEAD_KEY = "wavebotai_sent_paid_lead";
 
@@ -7,7 +6,6 @@ const leadStatus = document.getElementById("leadStatus");
 const productSelect = document.getElementById("productSelect");
 const telegramDemoVideo = document.getElementById("telegramDemoVideo");
 const videoPlayOverlay = document.getElementById("videoPlayOverlay");
-const telegramContactLinks = document.querySelectorAll(".js-telegram-contact");
 const productChoiceLinks = document.querySelectorAll(".js-product-choice");
 
 function getProductLabel(product) {
@@ -117,12 +115,6 @@ async function handlePaymentReturn() {
     leadStatus.textContent = "Платеж пока не подтвержден или автоотправка не сработала. Попробуйте обновить страницу через минуту.";
   }
 }
-
-telegramContactLinks.forEach((link) => {
-  if (CONTACT_TELEGRAM) {
-    link.href = `https://t.me/${CONTACT_TELEGRAM}`;
-  }
-});
 
 productChoiceLinks.forEach((link) => {
   link.addEventListener("click", () => {
