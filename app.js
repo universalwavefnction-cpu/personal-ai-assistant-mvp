@@ -1,8 +1,4 @@
 const CONTACT_TELEGRAM = "universal_wavefunction";
-const LAVA_TOP_PAYMENT_LINKS = {
-  test: "https://app.lava.top/products/20feaa87-334b-4dde-9e0c-f8701ae2afbc",
-  regular: "https://app.lava.top/products/9d62b40c-52b6-4ff9-80b5-17adb3b6b0fc"
-};
 const PENDING_LEAD_KEY = "wavebotai_pending_paid_lead";
 const SENT_LEAD_KEY = "wavebotai_sent_paid_lead";
 
@@ -13,10 +9,6 @@ const telegramDemoVideo = document.getElementById("telegramDemoVideo");
 const videoPlayOverlay = document.getElementById("videoPlayOverlay");
 const telegramContactLinks = document.querySelectorAll(".js-telegram-contact");
 const productChoiceLinks = document.querySelectorAll(".js-product-choice");
-
-function getPaymentUrl(product) {
-  return LAVA_TOP_PAYMENT_LINKS[product] || LAVA_TOP_PAYMENT_LINKS.test;
-}
 
 function getProductLabel(product) {
   return product === "regular"
@@ -40,22 +32,40 @@ function buildLeadPayload(formData) {
     `Версия: ${productLabel}`,
     `Зачем нужен бот: ${reason}`,
     "",
-    "Клиент вернулся на сайт после успешной оплаты Lava.top."
+    "Клиент вернулся на сайт после успешной оплаты ЮKassa."
   ].join("\n");
 
   return { leadId, name, telegram, product, reason, text, createdAt: new Date().toISOString() };
 }
 
-async function sendLeadToTelegram(lead) {
-  const response = await fetch("/api/lead", {
+async function createPayment(lead) {
+  const response = await fetch("/api/create-payment", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(lead)
   });
+  const result = await response.json().catch(() => ({}));
 
-  if (!response.ok) {
-    throw new Error("Lead endpoint failed");
+  if (!response.ok || !result.ok || !result.confirmationUrl || !result.paymentId) {
+    throw new Error(result.error || "Payment endpoint failed");
   }
+
+  return result;
+}
+
+async function checkPaymentAndSendLead(lead) {
+  const response = await fetch("/api/check-payment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(lead)
+  });
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok || !result.ok) {
+    throw new Error(result.error || "Payment check failed");
+  }
+
+  return result;
 }
 
 async function handlePaymentReturn() {
@@ -67,36 +77,44 @@ async function handlePaymentReturn() {
     return;
   }
 
-  if (paymentStatus !== "success") {
+  if (paymentStatus !== "return") {
     return;
   }
 
   const rawLead = localStorage.getItem(PENDING_LEAD_KEY);
   if (!rawLead) {
-    leadStatus.textContent = "Оплата прошла. Напишите @universal_wavefunction, чтобы я забрал задачу для настройки.";
+    leadStatus.textContent = "Вы вернулись после оплаты. Напишите @universal_wavefunction, чтобы я забрал задачу для настройки.";
     leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
 
-  const lead = JSON.parse(rawLead);
+  let lead;
+  try {
+    lead = JSON.parse(rawLead);
+  } catch {
+    localStorage.removeItem(PENDING_LEAD_KEY);
+    leadStatus.textContent = "Не удалось восстановить заявку после оплаты. Напишите @universal_wavefunction.";
+    leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
   const sentLeadId = localStorage.getItem(SENT_LEAD_KEY);
 
   if (sentLeadId === lead.leadId) {
-    leadStatus.textContent = "Оплата прошла. Заявка уже отправлена мне в Telegram.";
+    leadStatus.textContent = "Оплата проверена. Заявка уже отправлена мне в Telegram.";
     leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
 
-  leadStatus.textContent = "Оплата прошла. Отправляю заявку в Telegram...";
+  leadStatus.textContent = "Проверяю оплату ЮKassa...";
   leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
 
   try {
-    await sendLeadToTelegram(lead);
+    await checkPaymentAndSendLead(lead);
     localStorage.setItem(SENT_LEAD_KEY, lead.leadId);
     localStorage.removeItem(PENDING_LEAD_KEY);
-    leadStatus.textContent = "Оплата прошла. Заявка отправлена мне в Telegram, я напишу вам после проверки.";
+    leadStatus.textContent = "Оплата подтверждена. Заявка отправлена мне в Telegram, я напишу вам после проверки.";
   } catch (error) {
-    leadStatus.textContent = "Оплата прошла, но автоотправка не сработала. Напишите @universal_wavefunction и пришлите задачу.";
+    leadStatus.textContent = "Платеж пока не подтвержден или автоотправка не сработала. Напишите @universal_wavefunction и пришлите задачу.";
   }
 }
 
@@ -187,15 +205,23 @@ if ("IntersectionObserver" in window) {
 leadForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(leadForm);
-  const product = String(formData.get("product")).trim();
   const submitButton = leadForm.querySelector("button[type='submit']");
   const lead = buildLeadPayload(formData);
 
   submitButton.disabled = true;
-  submitButton.textContent = "Открываю оплату...";
-  localStorage.setItem(PENDING_LEAD_KEY, JSON.stringify(lead));
-  leadStatus.textContent = "Открываю оплату Lava.top...";
-  window.location.href = getPaymentUrl(product);
+  submitButton.textContent = "Создаю платеж...";
+  leadStatus.textContent = "Создаю платеж ЮKassa...";
+
+  try {
+    const payment = await createPayment(lead);
+    localStorage.setItem(PENDING_LEAD_KEY, JSON.stringify({ ...lead, paymentId: payment.paymentId }));
+    leadStatus.textContent = "Открываю страницу оплаты ЮKassa...";
+    window.location.href = payment.confirmationUrl;
+  } catch (error) {
+    submitButton.disabled = false;
+    submitButton.textContent = "Заполнить и перейти к оплате ЮKassa";
+    leadStatus.textContent = "Не удалось создать платеж. Напишите @universal_wavefunction, и я отправлю ссылку вручную.";
+  }
 });
 
 handlePaymentReturn();
