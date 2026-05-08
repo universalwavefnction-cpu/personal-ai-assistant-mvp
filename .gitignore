@@ -2,3 +2,10 @@ usage/data/*.jsonl
 !usage/data/.gitkeep
 .DS_Store
 __pycache__/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
