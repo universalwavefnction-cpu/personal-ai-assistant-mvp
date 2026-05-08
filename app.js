@@ -1,8 +1,14 @@
 const CONTACT_TELEGRAM = "your_username";
+const YOOMONEY_DEMO_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
 
 const leadForm = document.getElementById("leadForm");
 const leadStatus = document.getElementById("leadStatus");
 const telegramDemoVideo = document.getElementById("telegramDemoVideo");
+
+function hasConfiguredYooMoneyLink() {
+  return YOOMONEY_DEMO_URL.startsWith("https://yoomoney.ru/")
+    && !YOOMONEY_DEMO_URL.includes("YOUR_WALLET");
+}
 
 if (telegramDemoVideo) {
   const phoneFrame = telegramDemoVideo.closest(".phone-frame");
@@ -77,7 +83,13 @@ leadForm.addEventListener("submit", async (event) => {
       throw new Error("Lead endpoint is not available");
     }
 
-    leadStatus.textContent = "Заявка отправлена. Я напишу вам в Telegram.";
+    if (hasConfiguredYooMoneyLink()) {
+      leadStatus.textContent = "Заявка отправлена. Открываю оплату YooMoney...";
+      window.location.href = YOOMONEY_DEMO_URL;
+    } else {
+      leadStatus.textContent = "Заявка отправлена. Подключите YooMoney-ссылку в app.js перед публикацией.";
+    }
+
     leadForm.reset();
   } catch (error) {
     try {
@@ -92,6 +104,6 @@ leadForm.addEventListener("submit", async (event) => {
     }
   } finally {
     submitButton.disabled = false;
-    submitButton.textContent = "Отправить заявку в Telegram";
+    submitButton.textContent = "Отправить заявку и перейти к оплате";
   }
 });

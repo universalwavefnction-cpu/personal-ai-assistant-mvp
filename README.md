@@ -47,7 +47,15 @@ TELEGRAM_BOT_TOKEN=token from BotFather
 TELEGRAM_ADMIN_CHAT_ID=your Telegram chat id
 ```
 
-4. Optional fallback: edit `app.js` and replace:
+4. Edit `app.js` and replace:
+
+```js
+const YOOMONEY_DEMO_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
+```
+
+with your real YooMoney payment link for the 4 000 ₽ demo.
+
+5. Optional fallback: in the same file replace:
 
 ```js
 const CONTACT_TELEGRAM = "your_username";
@@ -55,13 +63,13 @@ const CONTACT_TELEGRAM = "your_username";
 
 with your real Telegram username without `@`. This is used only if the serverless lead endpoint is not available.
 
-5. Replace placeholder brand text if you choose a public name.
+6. Replace placeholder brand text if you choose a public name.
 
 ## Recommended MVP stack
 
 - Landing: this static page on Cloudflare Pages, GitHub Pages, Netlify, or Tilda.
 - Form: Cloudflare Pages Function sends the request to your Telegram bot. Static fallback opens Telegram and copies the request text.
-- Payment: manual invoice/payment link first.
+- Payment: YooMoney payment link for the demo.
 - Fulfillment: manual Hermes setup on your managed VPS for the first month.
 - Usage billing: `usage/usage.js` JSONL ledger at MVP stage.
 - CRM: a simple spreadsheet.
