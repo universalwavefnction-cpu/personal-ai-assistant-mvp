@@ -1,7 +1,7 @@
-Place the Telegram screen recording here as:
+The landing page uses this Telegram screen recording:
 
 ```text
 telegram-demo.mp4
 ```
 
-The landing page keeps the placeholder until this file exists, then the phone mockup automatically plays the video.
+If the file is missing, the phone mockup falls back to the placeholder.

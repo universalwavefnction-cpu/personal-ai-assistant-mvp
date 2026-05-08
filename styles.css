@@ -535,7 +535,13 @@ h3 {
   color: var(--teal);
   border-radius: 18px;
   background: rgba(47, 134, 183, 0.1);
+  font-size: 1.35rem;
   font-weight: 820;
+}
+
+.index.code-icon {
+  font-size: 0.9rem;
+  letter-spacing: 0;
 }
 
 .case-grid article {
