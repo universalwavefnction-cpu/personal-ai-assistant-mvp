@@ -193,23 +193,15 @@
 
       <section class="section form-section" id="request">
         <div class="form-copy">
-          <p class="eyebrow">Заявка</p>
+          <p class="eyebrow">Оплата</p>
           <h2>Получить своего бота</h2>
           <p>
-            Расскажите, зачем вам нужен бот и что он должен делать. Чем больше контекста
-            вы дадите на старте, тем точнее получится первая настройка: стиль, задачи,
-            материалы, голосовые, ответы и ограничения.
+            Сначала выберите версию и оплатите через Lava.top. После оплаты напишите мне
+            в Telegram, и я заберу контекст для настройки: задачу, стиль, материалы,
+            голосовые, ответы и ограничения.
           </p>
         </div>
         <form class="lead-form" id="leadForm">
-          <label>
-            <span>Имя</span>
-            <input name="name" autocomplete="name" required placeholder="Например, Дмитрий">
-          </label>
-          <label>
-            <span>Ваш Telegram</span>
-            <input name="telegram" autocomplete="username" required placeholder="@username">
-          </label>
           <label>
             <span>Версия</span>
             <select name="product" id="productSelect" required>
@@ -217,20 +209,11 @@
               <option value="regular">Обычная версия - 8 000 ₽, пакет токенов включен</option>
             </select>
           </label>
-          <label>
-            <span>Зачем вам бот?</span>
-            <textarea
-              name="reason"
-              required
-              rows="4"
-              placeholder="Например: хочу бота, который разбирает голосовые, отвечает по моим заметкам, пишет в моем стиле и помогает вести задачи"
-            ></textarea>
-          </label>
-          <button class="primary-button full" type="submit">Отправить заявку и перейти к оплате</button>
-          <p class="form-note" id="leadStatus">После заявки откроется оплата Lava.top. Я получу заявку в Telegram и напишу вам после оплаты.</p>
+          <button class="primary-button full" type="submit">Перейти к оплате</button>
+          <p class="form-note" id="leadStatus">После оплаты напишите мне в Telegram: @universal_wavefunction. Я отвечу и заберу задачу для настройки.</p>
           <div class="contact-strip">
             <span>Есть вопросы или неясно, подойдет ли вам бот?</span>
-            <a class="text-link js-telegram-contact" href="https://t.me/your_username" target="_blank" rel="noreferrer">Написать мне в Telegram</a>
+            <a class="text-link js-telegram-contact" href="https://t.me/universal_wavefunction" target="_blank" rel="noreferrer">Написать @universal_wavefunction</a>
           </div>
         </form>
       </section>

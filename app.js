@@ -1,4 +1,4 @@
-const CONTACT_TELEGRAM = "your_username";
+const CONTACT_TELEGRAM = "universal_wavefunction";
 const LAVA_TOP_PAYMENT_LINKS = {
   test: "https://app.lava.top/products/20feaa87-334b-4dde-9e0c-f8701ae2afbc",
   regular: "https://app.lava.top/products/9d62b40c-52b6-4ff9-80b5-17adb3b6b0fc"
@@ -17,7 +17,7 @@ function getPaymentUrl(product) {
 }
 
 telegramContactLinks.forEach((link) => {
-  if (CONTACT_TELEGRAM !== "your_username") {
+  if (CONTACT_TELEGRAM) {
     link.href = `https://t.me/${CONTACT_TELEGRAM}`;
   }
 });
@@ -103,44 +103,11 @@ if ("IntersectionObserver" in window) {
 leadForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(leadForm);
-  const name = String(formData.get("name")).trim();
-  const telegram = String(formData.get("telegram")).trim();
   const product = String(formData.get("product")).trim();
-  const reason = String(formData.get("reason")).trim();
   const submitButton = leadForm.querySelector("button[type='submit']");
-  const productLabel = product === "regular"
-    ? "Обычная версия - 8 000 ₽, пакет токенов включен"
-    : "Тестовая версия - 4 000 ₽, ограниченный лимит";
-
-  const text = [
-    "Заявка на личного AI-ассистента",
-    "",
-    `Имя: ${name}`,
-    `Telegram: ${telegram}`,
-    `Версия: ${productLabel}`,
-    `Зачем нужен бот: ${reason}`,
-    "",
-    "Хочу получить AI-бота. Понимаю разницу: тестовая версия проверяет, что бот работает, а обычная версия идет с пакетом токенов."
-  ].join("\n");
 
   submitButton.disabled = true;
-  submitButton.textContent = "Отправляю...";
-  leadStatus.textContent = "Отправляю заявку и открываю оплату...";
-
-  try {
-    await fetch("/api/lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      keepalive: true,
-      body: JSON.stringify({ name, telegram, product, reason, text })
-    });
-  } catch (error) {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {}
-  }
-
+  submitButton.textContent = "Открываю оплату...";
   leadStatus.textContent = "Открываю оплату Lava.top...";
-  leadForm.reset();
   window.location.href = getPaymentUrl(product);
 });
