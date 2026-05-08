@@ -1,3 +1,4 @@
 usage/data/*.jsonl
 !usage/data/.gitkeep
 .DS_Store
+__pycache__/
