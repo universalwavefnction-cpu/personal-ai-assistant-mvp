@@ -6,6 +6,7 @@ const leadForm = document.getElementById("leadForm");
 const leadStatus = document.getElementById("leadStatus");
 const productSelect = document.getElementById("productSelect");
 const telegramDemoVideo = document.getElementById("telegramDemoVideo");
+const videoPlayOverlay = document.getElementById("videoPlayOverlay");
 const telegramContactLinks = document.querySelectorAll(".js-telegram-contact");
 const productChoiceLinks = document.querySelectorAll(".js-product-choice");
 
@@ -39,10 +40,26 @@ if (telegramDemoVideo) {
     phoneFrame?.classList.add("has-demo-video");
   });
 
+  telegramDemoVideo.addEventListener("play", () => {
+    phoneFrame?.classList.add("is-video-playing");
+  });
+
+  telegramDemoVideo.addEventListener("pause", () => {
+    phoneFrame?.classList.remove("is-video-playing");
+  });
+
+  telegramDemoVideo.addEventListener("ended", () => {
+    phoneFrame?.classList.remove("is-video-playing");
+  });
+
   telegramDemoVideo.addEventListener("error", () => {
     phoneFrame?.classList.remove("has-demo-video");
   });
 }
+
+videoPlayOverlay?.addEventListener("click", () => {
+  telegramDemoVideo?.play().catch(() => {});
+});
 
 const motionTargets = document.querySelectorAll(
   ".section-heading, .advantage-grid article, .case-grid article, .included-item, .price-card, .form-copy, .lead-form, .business-card, .faq-list details"
