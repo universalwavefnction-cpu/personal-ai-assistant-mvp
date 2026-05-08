@@ -55,6 +55,21 @@ if (telegramDemoVideo) {
   telegramDemoVideo.addEventListener("error", () => {
     phoneFrame?.classList.remove("has-demo-video");
   });
+
+  if ("IntersectionObserver" in window && phoneFrame) {
+    const videoVisibilityObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && !telegramDemoVideo.paused) {
+            telegramDemoVideo.pause();
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    videoVisibilityObserver.observe(phoneFrame);
+  }
 }
 
 videoPlayOverlay?.addEventListener("click", () => {
