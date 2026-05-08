@@ -18,7 +18,6 @@ Provider note:
 - `styles.css` - premium, restrained visual system.
 - `app.js` - Telegram lead form with static fallback.
 - `functions/api/lead.js` - Cloudflare Pages Function that sends leads to your Telegram bot.
-- `functions/api/create-payment.js` - Cloudflare Pages Function that creates Lava invoices server-side.
 - `docs/costs.md` - launch and operating cost calculation.
 - `docs/managed-flow.md` - exact client-facing and behind-the-scenes flow.
 - `docs/token-usage-billing.md` - token metering and usage billing rules.
@@ -47,21 +46,9 @@ No build step is required.
 ```text
 TELEGRAM_BOT_TOKEN=token from BotFather
 TELEGRAM_ADMIN_CHAT_ID=your Telegram chat id
-LAVA_SHOP_ID=your Lava shop id
-LAVA_SECRET_KEY=your Lava API secret key
 ```
 
-Never put `LAVA_SECRET_KEY` in `app.js`, `index.html`, or any frontend file.
-
-4. Optional payment return URLs:
-
-```text
-LAVA_SUCCESS_URL=https://your-domain.ru/?payment=success
-LAVA_FAIL_URL=https://your-domain.ru/?payment=fail
-LAVA_HOOK_URL=https://your-domain.ru/api/lava-webhook
-```
-
-5. Optional fallback: in `app.js` replace:
+4. Optional fallback: in `app.js` replace:
 
 ```js
 const CONTACT_TELEGRAM = "your_username";
@@ -69,13 +56,22 @@ const CONTACT_TELEGRAM = "your_username";
 
 with your real Telegram username without `@`. This is used only if the serverless lead endpoint is not available.
 
+5. Payment uses fixed Lava.top product links in `app.js`:
+
+```js
+const LAVA_TOP_PAYMENT_LINKS = {
+  test: "https://app.lava.top/products/20feaa87-334b-4dde-9e0c-f8701ae2afbc",
+  regular: "https://app.lava.top/products/9d62b40c-52b6-4ff9-80b5-17adb3b6b0fc"
+};
+```
+
 6. Replace placeholder brand text if you choose a public name.
 
 ## Recommended MVP stack
 
 - Landing: this static page on Cloudflare Pages, GitHub Pages, Netlify, or Tilda.
-- Form: Cloudflare Pages Function sends the request to your Telegram bot. Static fallback opens Telegram and copies the request text.
-- Payment: Lava invoice created server-side through Cloudflare Pages Function.
+- Form: Cloudflare Pages Function sends the request to your Telegram bot when configured. Payment redirect still works without the lead bot.
+- Payment: direct Lava.top product links for the 4 000 ₽ test version and 8 000 ₽ regular version.
 - Fulfillment: manual Hermes setup on your managed VPS for the first month.
 - Usage billing: `usage/usage.js` JSONL ledger at MVP stage.
 - CRM: a simple spreadsheet.

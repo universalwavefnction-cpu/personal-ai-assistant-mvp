@@ -1,4 +1,8 @@
 const CONTACT_TELEGRAM = "your_username";
+const LAVA_TOP_PAYMENT_LINKS = {
+  test: "https://app.lava.top/products/20feaa87-334b-4dde-9e0c-f8701ae2afbc",
+  regular: "https://app.lava.top/products/9d62b40c-52b6-4ff9-80b5-17adb3b6b0fc"
+};
 
 const leadForm = document.getElementById("leadForm");
 const leadStatus = document.getElementById("leadStatus");
@@ -7,6 +11,10 @@ const telegramDemoVideo = document.getElementById("telegramDemoVideo");
 const videoPlayOverlay = document.getElementById("videoPlayOverlay");
 const telegramContactLinks = document.querySelectorAll(".js-telegram-contact");
 const productChoiceLinks = document.querySelectorAll(".js-product-choice");
+
+function getPaymentUrl(product) {
+  return LAVA_TOP_PAYMENT_LINKS[product] || LAVA_TOP_PAYMENT_LINKS.test;
+}
 
 telegramContactLinks.forEach((link) => {
   if (CONTACT_TELEGRAM !== "your_username") {
@@ -117,36 +125,22 @@ leadForm.addEventListener("submit", async (event) => {
 
   submitButton.disabled = true;
   submitButton.textContent = "Отправляю...";
-  leadStatus.textContent = "Создаю счет Lava...";
+  leadStatus.textContent = "Отправляю заявку и открываю оплату...";
 
   try {
-    const response = await fetch("/api/create-payment", {
+    await fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      keepalive: true,
       body: JSON.stringify({ name, telegram, product, reason, text })
     });
-    const result = await response.json().catch(() => ({}));
-
-    if (!response.ok || !result.ok || !result.paymentUrl) {
-      throw new Error(result.error || "Payment endpoint is not available");
-    }
-
-    leadStatus.textContent = "Заявка отправлена. Открываю оплату Lava...";
-    leadForm.reset();
-    window.location.href = result.paymentUrl;
   } catch (error) {
     try {
       await navigator.clipboard.writeText(text);
     } catch {}
-
-    if (CONTACT_TELEGRAM !== "your_username") {
-      window.open(`https://t.me/${CONTACT_TELEGRAM}`, "_blank", "noopener,noreferrer");
-      leadStatus.textContent = "Не удалось создать счет. Открыл Telegram и скопировал текст заявки.";
-    } else {
-      leadStatus.textContent = "Оплата еще не подключена. Добавьте Lava-переменные в Cloudflare Pages.";
-    }
-  } finally {
-    submitButton.disabled = false;
-    submitButton.textContent = "Отправить заявку и перейти к оплате";
   }
+
+  leadStatus.textContent = "Открываю оплату Lava.top...";
+  leadForm.reset();
+  window.location.href = getPaymentUrl(product);
 });
