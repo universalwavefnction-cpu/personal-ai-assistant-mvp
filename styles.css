@@ -706,6 +706,7 @@ h3 {
 }
 
 .lead-form input,
+.lead-form select,
 .lead-form textarea {
   width: 100%;
   border: 0;
@@ -721,6 +722,7 @@ h3 {
 }
 
 .lead-form input:focus,
+.lead-form select:focus,
 .lead-form textarea:focus {
   outline: 0;
   border-color: var(--teal);
@@ -732,6 +734,30 @@ h3 {
   margin: 0;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.contact-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(47, 134, 183, 0.18);
+  border-radius: 18px;
+  color: var(--muted);
+  background: rgba(47, 134, 183, 0.06);
+}
+
+.text-link {
+  color: var(--teal);
+  font-weight: 820;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--fast) ease;
+}
+
+.text-link:hover {
+  color: var(--teal-dark);
 }
 
 .business-section {
@@ -985,6 +1011,11 @@ main > section,
 
   .hero-actions {
     align-items: stretch;
+  }
+
+  .contact-strip {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .primary-button,

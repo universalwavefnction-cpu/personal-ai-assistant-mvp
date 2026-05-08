@@ -74,8 +74,8 @@
             <a class="secondary-button" href="#examples">Посмотреть примеры</a>
           </div>
           <p class="hero-note">
-            В демо включен ограниченный лимит токенов для теста. Бот остается вашим:
-            после запуска можно докупить токены через Telegram.
+            Два варианта: тестовая версия за 4 000 ₽, чтобы проверить работу бота,
+            или обычная версия за 8 000 ₽ с пакетом токенов.
           </p>
         </div>
       </section>
@@ -157,7 +157,7 @@
             </div>
             <div class="included-item" data-step="04">
               <strong>4. Токены под контролем</strong>
-              <span>В демо есть ограниченный лимит для теста. После запуска бот остается вашим, а токены можно докупить через Telegram.</span>
+              <span>В тестовой версии есть только ограниченный лимит. В обычной версии пакет токенов включен сразу.</span>
             </div>
           </div>
         </div>
@@ -166,14 +166,14 @@
       <section class="section pricing-section" id="pricing">
         <div class="section-heading">
           <p class="eyebrow">Цена MVP</p>
-          <h2>Стартовые цены для первых отзывов. Рабочая ссылка за 24 часа.</h2>
+          <h2>Два продукта: тестовая версия и обычная версия с токенами.</h2>
         </div>
         <div class="pricing-grid">
           <article class="price-card featured">
             <div class="price-topline">Первый шаг</div>
-            <h3>Демо-бот</h3>
+            <h3>Тестовая версия</h3>
             <p class="price">4 000 ₽</p>
-            <p class="price-caption">Рабочая ссылка за 24 часа. Включен только ограниченный лимит для теста.</p>
+            <p class="price-caption">Чтобы проверить, что бот работает под вашу задачу. Только ограниченный тестовый лимит.</p>
             <ul>
               <li>Telegram-бот для теста</li>
               <li>1 сценарий под вашу задачу</li>
@@ -181,13 +181,13 @@
               <li>Только ограниченный тестовый лимит</li>
               <li>Бот остается вашим</li>
             </ul>
-            <a class="primary-button full" href="#request">Собрать демо и оплатить</a>
+            <a class="primary-button full js-product-choice" href="#request" data-product="test">Получить тестовую версию</a>
           </article>
           <article class="price-card">
-            <div class="price-topline">После демо</div>
-            <h3>Полная настройка</h3>
+            <div class="price-topline">Обычная версия</div>
+            <h3>Бот с токенами</h3>
             <p class="price">8 000 ₽</p>
-            <p class="price-caption">Полная настройка после демо. Пакет токенов включен.</p>
+            <p class="price-caption">Обычный запуск без тестового ограничения. Пакет токенов включен сразу.</p>
             <ul>
               <li>Telegram-бот остается вашим</li>
               <li>До 10 материалов</li>
@@ -195,12 +195,12 @@
               <li>Голосовые</li>
               <li>Пакет токенов включен</li>
             </ul>
-            <a class="secondary-button full" href="#request">Запросить условия</a>
+            <a class="secondary-button full js-product-choice" href="#request" data-product="regular">Получить обычную версию</a>
           </article>
         </div>
         <p class="pricing-note">
-          Цена ниже обычной, пока собираются первые отзывы и кейсы. Не пропустите ранние условия:
-          рабочую ссылку гарантирую в течение 24 часов после оплаты и короткого брифа, чаще отправляю за несколько часов.
+          Рабочую ссылку гарантирую в течение 24 часов после оплаты и короткого брифа,
+          чаще отправляю за несколько часов.
         </p>
       </section>
 
@@ -224,6 +224,13 @@
             <input name="telegram" autocomplete="username" required placeholder="@username">
           </label>
           <label>
+            <span>Версия</span>
+            <select name="product" id="productSelect" required>
+              <option value="test">Тестовая версия - 4 000 ₽, ограниченный лимит</option>
+              <option value="regular">Обычная версия - 8 000 ₽, пакет токенов включен</option>
+            </select>
+          </label>
+          <label>
             <span>Зачем вам бот?</span>
             <textarea
               name="reason"
@@ -234,6 +241,10 @@
           </label>
           <button class="primary-button full" type="submit">Отправить заявку и перейти к оплате</button>
           <p class="form-note" id="leadStatus">После заявки откроется оплата YooMoney. Я получу заявку в Telegram и напишу вам после оплаты.</p>
+          <div class="contact-strip">
+            <span>Есть вопросы или неясно, подойдет ли вам бот?</span>
+            <a class="text-link js-telegram-contact" href="https://t.me/your_username" target="_blank" rel="noreferrer">Написать мне в Telegram</a>
+          </div>
         </form>
       </section>
 
@@ -273,7 +284,7 @@
           </details>
           <details>
             <summary>Как пополнять токены через Telegram?</summary>
-            <p>В демо включен ограниченный лимит токенов для теста. Бот остается вашим: после запуска можно написать мне в Telegram, выбрать сумму пополнения, оплатить по ссылке или переводом, и я обновлю баланс.</p>
+            <p>В тестовой версии есть только ограниченный лимит, чтобы проверить работу бота. В обычной версии пакет токенов включен сразу. Когда пакет заканчивается, можно написать мне в Telegram и пополнить баланс.</p>
           </details>
         </div>
       </section>

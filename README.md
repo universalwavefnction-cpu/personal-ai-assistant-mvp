@@ -8,8 +8,8 @@ BotFather, VPS, Hermes, model routing, and profile setup stay behind the scenes.
 Provider note:
 
 ```text
-В демо включен ограниченный лимит токенов для теста.
-Бот остается вашим: после запуска можно докупить токены через Telegram.
+Тестовая версия за 4 000 ₽ проверяет, что бот работает.
+Обычная версия за 8 000 ₽ идет с пакетом токенов.
 ```
 
 ## What is included
@@ -50,10 +50,11 @@ TELEGRAM_ADMIN_CHAT_ID=your Telegram chat id
 4. Edit `app.js` and replace:
 
 ```js
-const YOOMONEY_DEMO_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
+const YOOMONEY_TEST_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
+const YOOMONEY_REGULAR_URL = "https://yoomoney.ru/to/YOUR_WALLET/8000";
 ```
 
-with your real YooMoney payment link for the 4 000 ₽ demo.
+with your real YooMoney payment links for the 4 000 ₽ test version and 8 000 ₽ regular version.
 
 5. Optional fallback: in the same file replace:
 
@@ -83,9 +84,9 @@ Primary:
 Без возни с подписками, VPN, серверами и настройками.
 Под капотом - лучшие AI-модели с возможностью смены.
 Кастомный бот прилетает рабочей ссылкой в течение нескольких часов.
-Демо за 4 000 ₽ с ограниченным лимитом токенов для теста.
-Если бот полезен - полная настройка 8 000 ₽ с включенным пакетом токенов.
-Готов за 24 часа после оплаты демо и получения сценария.
+Тестовая версия за 4 000 ₽ с ограниченным лимитом.
+Обычная версия за 8 000 ₽ с включенным пакетом токенов.
+Готов за 24 часа после оплаты выбранной версии и получения сценария.
 Первый месяц managed-размещения включен, расход AI-модели оплачивается по токенам.
 ```
 

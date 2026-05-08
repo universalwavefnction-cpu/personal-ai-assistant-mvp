@@ -1,14 +1,36 @@
 const CONTACT_TELEGRAM = "your_username";
-const YOOMONEY_DEMO_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
+const YOOMONEY_TEST_URL = "https://yoomoney.ru/to/YOUR_WALLET/4000";
+const YOOMONEY_REGULAR_URL = "https://yoomoney.ru/to/YOUR_WALLET/8000";
 
 const leadForm = document.getElementById("leadForm");
 const leadStatus = document.getElementById("leadStatus");
+const productSelect = document.getElementById("productSelect");
 const telegramDemoVideo = document.getElementById("telegramDemoVideo");
+const telegramContactLinks = document.querySelectorAll(".js-telegram-contact");
+const productChoiceLinks = document.querySelectorAll(".js-product-choice");
 
-function hasConfiguredYooMoneyLink() {
-  return YOOMONEY_DEMO_URL.startsWith("https://yoomoney.ru/")
-    && !YOOMONEY_DEMO_URL.includes("YOUR_WALLET");
+function getPaymentUrl(product) {
+  return product === "regular" ? YOOMONEY_REGULAR_URL : YOOMONEY_TEST_URL;
 }
+
+function hasConfiguredYooMoneyLink(product) {
+  const url = getPaymentUrl(product);
+  return url.startsWith("https://yoomoney.ru/") && !url.includes("YOUR_WALLET");
+}
+
+telegramContactLinks.forEach((link) => {
+  if (CONTACT_TELEGRAM !== "your_username") {
+    link.href = `https://t.me/${CONTACT_TELEGRAM}`;
+  }
+});
+
+productChoiceLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    if (productSelect) {
+      productSelect.value = link.dataset.product || "test";
+    }
+  });
+});
 
 if (telegramDemoVideo) {
   const phoneFrame = telegramDemoVideo.closest(".phone-frame");
@@ -55,17 +77,22 @@ leadForm.addEventListener("submit", async (event) => {
   const formData = new FormData(leadForm);
   const name = String(formData.get("name")).trim();
   const telegram = String(formData.get("telegram")).trim();
+  const product = String(formData.get("product")).trim();
   const reason = String(formData.get("reason")).trim();
   const submitButton = leadForm.querySelector("button[type='submit']");
+  const productLabel = product === "regular"
+    ? "Обычная версия - 8 000 ₽, пакет токенов включен"
+    : "Тестовая версия - 4 000 ₽, ограниченный лимит";
 
   const text = [
     "Заявка на личного AI-ассистента",
     "",
     `Имя: ${name}`,
     `Telegram: ${telegram}`,
+    `Версия: ${productLabel}`,
     `Зачем нужен бот: ${reason}`,
     "",
-    "Хочу собрать демо за 4 000 ₽. Понимаю, что в демо есть ограниченный лимит токенов для теста. Если подойдет, готов обсудить полную настройку за 8 000 ₽ с включенным пакетом токенов."
+    "Хочу получить AI-бота. Понимаю разницу: тестовая версия проверяет, что бот работает, а обычная версия идет с пакетом токенов."
   ].join("\n");
 
   submitButton.disabled = true;
@@ -76,16 +103,16 @@ leadForm.addEventListener("submit", async (event) => {
     const response = await fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, telegram, reason, text })
+      body: JSON.stringify({ name, telegram, product, reason, text })
     });
 
     if (!response.ok) {
       throw new Error("Lead endpoint is not available");
     }
 
-    if (hasConfiguredYooMoneyLink()) {
+    if (hasConfiguredYooMoneyLink(product)) {
       leadStatus.textContent = "Заявка отправлена. Открываю оплату YooMoney...";
-      window.location.href = YOOMONEY_DEMO_URL;
+      window.location.href = getPaymentUrl(product);
     } else {
       leadStatus.textContent = "Заявка отправлена. Подключите YooMoney-ссылку в app.js перед публикацией.";
     }
