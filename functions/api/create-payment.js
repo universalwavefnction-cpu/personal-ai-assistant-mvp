@@ -14,6 +14,11 @@ const products = {
     amount: "8000.00",
     label: "Обычная версия - 8 000 ₽, пакет токенов включен",
     description: "AI-бот Telegram: обычная версия с токенами"
+  },
+  demo: {
+    amount: "1.00",
+    label: "Тестовый платёж 1 ₽ (проверка флоу)",
+    description: "Тест YooKassa: 1 ₽"
   }
 };
 

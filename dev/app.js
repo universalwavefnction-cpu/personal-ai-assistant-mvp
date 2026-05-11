@@ -295,3 +295,51 @@ if (leadForm) {
 }
 
 handlePaymentReturn();
+
+/* ---------- Dev-only 1 ₽ test payment (verifies YooKassa shop end-to-end) ---------- */
+const testPaymentBtn = document.getElementById("testPaymentBtn");
+if (testPaymentBtn) {
+  testPaymentBtn.addEventListener("click", async () => {
+    const formData = leadForm ? new FormData(leadForm) : new FormData();
+    const name = String(formData.get("name") || "").trim() || "Dev test";
+    const telegram = String(formData.get("telegram") || "").trim() || "@dev_test";
+    const reason =
+      String(formData.get("reason") || "").trim() ||
+      "Тест-платёж 1 ₽ — проверка YooKassa flow на /dev/";
+    const goals = formData.getAll("goal").join(", ");
+    const leadId = `demo-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+    const lead = {
+      leadId,
+      name,
+      telegram,
+      product: "demo",
+      reason,
+      goals,
+      createdAt: new Date().toISOString(),
+    };
+
+    const originalText = testPaymentBtn.textContent;
+    testPaymentBtn.disabled = true;
+    testPaymentBtn.textContent = "Создаю тест-платёж…";
+    if (leadStatus) leadStatus.textContent = "Создаю тест-платёж 1 ₽…";
+
+    try {
+      const payment = await createPayment(lead);
+      localStorage.setItem(
+        PENDING_LEAD_KEY,
+        JSON.stringify({ ...lead, paymentId: payment.paymentId }),
+      );
+      if (leadStatus) leadStatus.textContent = "Открываю страницу ЮKassa…";
+      window.location.href = payment.confirmationUrl;
+    } catch (err) {
+      testPaymentBtn.disabled = false;
+      testPaymentBtn.textContent = originalText;
+      if (leadStatus) {
+        leadStatus.textContent =
+          "Не удалось создать тест-платёж. Проверьте, что YOOKASSA_SHOP_ID и YOOKASSA_SECRET_KEY заданы в env CF Pages.";
+      }
+      console.error("Test payment failed", err);
+    }
+  });
+}
