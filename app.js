@@ -1,12 +1,139 @@
+/* wavebotai /dev/ — production flow: YooKassa + helpers. */
+
 const PENDING_LEAD_KEY = "wavebotai_pending_paid_lead";
 const SENT_LEAD_KEY = "wavebotai_sent_paid_lead";
 
 const leadForm = document.getElementById("leadForm");
 const leadStatus = document.getElementById("leadStatus");
 const productSelect = document.getElementById("productSelect");
-const telegramDemoVideo = document.getElementById("telegramDemoVideo");
-const videoPlayOverlay = document.getElementById("videoPlayOverlay");
 const productChoiceLinks = document.querySelectorAll(".js-product-choice");
+const heroVideo = document.getElementById("heroVideo");
+const heroVideoPlay = document.getElementById("heroVideoPlay");
+const heroVideoFallback = document.getElementById("heroVideoFallback");
+const phoneFrame = document.getElementById("phoneFrame");
+const stickyCta = document.querySelector("[data-sticky-cta]");
+const formSection = document.getElementById("request");
+
+/* ---------- Product preselect on pricing-card click ---------- */
+productChoiceLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    if (productSelect) productSelect.value = link.dataset.product || "test";
+  });
+});
+
+/* ---------- Sticky CTA: hide when form is visible ---------- */
+if (stickyCta && formSection && "IntersectionObserver" in window) {
+  const stickyObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        stickyCta.classList.toggle("hidden", entry.isIntersecting);
+      });
+    },
+    { threshold: 0.2 },
+  );
+  stickyObs.observe(formSection);
+}
+
+/* ---------- Hero video: autoplay-muted-loop with graceful fallback ---------- */
+if (heroVideo) {
+  let hasPlayedOnce = false;
+
+  function showPlayButton() {
+    if (heroVideoPlay) heroVideoPlay.classList.add("is-visible");
+  }
+  function hidePlayButton() {
+    if (heroVideoPlay) heroVideoPlay.classList.remove("is-visible");
+  }
+
+  // Big branded play button only for the never-played-yet state.
+  showPlayButton();
+
+  heroVideo.addEventListener("loadeddata", () => {
+    phoneFrame?.classList.add("has-demo-video");
+  });
+
+  heroVideo.addEventListener("playing", () => {
+    hasPlayedOnce = true;
+    hidePlayButton();
+  });
+  // After first play, leave subsequent pauses to native controls — don't re-cover the video.
+  heroVideo.addEventListener("pause", () => {
+    if (!hasPlayedOnce) showPlayButton();
+  });
+  heroVideo.addEventListener("ended", () => {
+    if (!hasPlayedOnce) showPlayButton();
+  });
+
+  heroVideo.addEventListener("error", () => {
+    phoneFrame?.classList.add("video-failed");
+    if (heroVideoFallback) heroVideoFallback.hidden = false;
+    hidePlayButton();
+  });
+
+  function togglePlay() {
+    if (heroVideo.paused || heroVideo.ended) {
+      heroVideo.muted = false;
+      heroVideo.play().catch(() => {});
+    } else {
+      heroVideo.pause();
+    }
+  }
+  // Custom overlay only — native controls handle clicks on the video itself.
+  heroVideoPlay?.addEventListener("click", togglePlay);
+
+  // Pause when scrolled out of view. Do NOT auto-resume — user must click play.
+  if ("IntersectionObserver" in window && phoneFrame) {
+    const vis = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && !heroVideo.paused) heroVideo.pause();
+        });
+      },
+      { threshold: 0.15 },
+    );
+    vis.observe(phoneFrame);
+  }
+
+  // Pause any other autoplay videos (e.g. the old advantages-section one if cached) too
+  document.querySelectorAll("video").forEach((v) => {
+    if (v !== heroVideo) {
+      v.removeAttribute("autoplay");
+      try {
+        v.pause();
+      } catch {}
+    }
+  });
+}
+
+/* ---------- Subtle scroll reveal (additive only) ---------- */
+if ("IntersectionObserver" in window) {
+  const targets = document.querySelectorAll(
+    ".dialog-card, .capability-grid li, .price-card, .how-steps li, .business-card, .faq-list details, .proof-stat",
+  );
+  const reveal = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transition = "opacity 480ms ease, transform 480ms ease";
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+          reveal.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 },
+  );
+
+  targets.forEach((target) => {
+    target.style.opacity = "0.72";
+    target.style.transform = "translateY(8px)";
+    reveal.observe(target);
+  });
+}
+
+/* ============================================================
+   YooKassa payment flow (ported from live app.js)
+   ============================================================ */
 
 function getProductLabel(product) {
   return product === "regular"
@@ -15,12 +142,17 @@ function getProductLabel(product) {
 }
 
 function buildLeadPayload(formData) {
-  const name = String(formData.get("name")).trim();
-  const telegram = String(formData.get("telegram")).trim();
-  const product = String(formData.get("product")).trim();
-  const reason = String(formData.get("reason")).trim();
+  const name = String(formData.get("name") ?? "").trim();
+  const telegram = String(formData.get("telegram") ?? "").trim();
+  const product = String(formData.get("product") ?? "").trim();
+  const reason = String(formData.get("reason") ?? "").trim();
+  const goals = formData.getAll("goal").join(", ");
   const leadId = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
   const productLabel = getProductLabel(product);
+
+  const reasonBlock = reason || "—";
+  const goalsBlock = goals || "—";
+
   const text = [
     "Оплаченная заявка на личного AI-ассистента",
     "",
@@ -28,19 +160,30 @@ function buildLeadPayload(formData) {
     `Имя: ${name}`,
     `Telegram: ${telegram}`,
     `Версия: ${productLabel}`,
-    `Зачем нужен бот: ${reason}`,
+    `Важно: ${goalsBlock}`,
+    `Задача: ${reasonBlock}`,
     "",
-    "Клиент вернулся на сайт после успешной оплаты."
+    "Клиент вернулся на сайт после успешной оплаты.",
   ].join("\n");
 
-  return { leadId, name, telegram, product, reason, text, createdAt: new Date().toISOString() };
+  return {
+    leadId,
+    name,
+    telegram,
+    product,
+    reason,
+    goals,
+    text,
+    returnPath: "/",
+    createdAt: new Date().toISOString(),
+  };
 }
 
 async function createPayment(lead) {
   const response = await fetch("/api/create-payment", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(lead)
+    body: JSON.stringify(lead),
   });
   const result = await response.json().catch(() => ({}));
 
@@ -55,7 +198,7 @@ async function checkPaymentAndSendLead(lead) {
   const response = await fetch("/api/check-payment", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(lead)
+    body: JSON.stringify(lead),
   });
   const result = await response.json().catch(() => ({}));
 
@@ -71,18 +214,19 @@ async function handlePaymentReturn() {
   const paymentStatus = params.get("payment");
 
   if (paymentStatus === "fail") {
-    leadStatus.textContent = "Оплата не завершилась. Можно попробовать еще раз.";
+    if (leadStatus) leadStatus.textContent = "Оплата не завершилась. Можно попробовать ещё раз.";
     return;
   }
 
-  if (paymentStatus !== "return") {
-    return;
-  }
+  if (paymentStatus !== "return") return;
 
   const rawLead = localStorage.getItem(PENDING_LEAD_KEY);
   if (!rawLead) {
-    leadStatus.textContent = "Вы вернулись после оплаты, но заявка не найдена. Заполните форму еще раз или напишите мне вручную.";
-    leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (leadStatus) {
+      leadStatus.textContent =
+        "Вы вернулись после оплаты, но заявка не найдена. Заполните форму ещё раз или напишите мне вручную.";
+      leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
     return;
   }
 
@@ -91,129 +235,75 @@ async function handlePaymentReturn() {
     lead = JSON.parse(rawLead);
   } catch {
     localStorage.removeItem(PENDING_LEAD_KEY);
-    leadStatus.textContent = "Не удалось восстановить заявку после оплаты. Заполните форму еще раз или напишите мне вручную.";
-    leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (leadStatus) {
+      leadStatus.textContent =
+        "Не удалось восстановить заявку после оплаты. Заполните форму ещё раз или напишите мне вручную.";
+      leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
     return;
   }
+
   const sentLeadId = localStorage.getItem(SENT_LEAD_KEY);
-
   if (sentLeadId === lead.leadId) {
-    leadStatus.textContent = "Оплата проверена. Заявка уже отправлена мне в Telegram.";
-    leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (leadStatus) {
+      leadStatus.textContent = "Оплата проверена. Заявка уже отправлена мне в Telegram.";
+      leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
     return;
   }
 
-  leadStatus.textContent = "Проверяю оплату...";
-  leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (leadStatus) {
+    leadStatus.textContent = "Проверяю оплату…";
+    leadStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   try {
     await checkPaymentAndSendLead(lead);
     localStorage.setItem(SENT_LEAD_KEY, lead.leadId);
     localStorage.removeItem(PENDING_LEAD_KEY);
-    leadStatus.textContent = "Оплата подтверждена. Заявка отправлена мне в Telegram, я напишу вам после проверки.";
-  } catch (error) {
-    leadStatus.textContent = "Платеж пока не подтвержден или автоотправка не сработала. Попробуйте обновить страницу через минуту.";
+    if (leadStatus) {
+      leadStatus.textContent =
+        "Оплата подтверждена. Заявка отправлена мне в Telegram, я напишу вам после проверки.";
+    }
+  } catch {
+    if (leadStatus) {
+      leadStatus.textContent =
+        "Платёж пока не подтверждён или автоотправка не сработала. Попробуйте обновить страницу через минуту.";
+    }
   }
 }
 
-productChoiceLinks.forEach((link) => {
-  link.addEventListener("click", () => {
-    if (productSelect) {
-      productSelect.value = link.dataset.product || "test";
+if (leadForm) {
+  leadForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(leadForm);
+    const submitButton = leadForm.querySelector("button[type='submit']");
+    const lead = buildLeadPayload(formData);
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Создаю платёж…";
+    }
+    if (leadStatus) leadStatus.textContent = "Создаю платёж…";
+
+    try {
+      const payment = await createPayment(lead);
+      localStorage.setItem(
+        PENDING_LEAD_KEY,
+        JSON.stringify({ ...lead, paymentId: payment.paymentId }),
+      );
+      if (leadStatus) leadStatus.textContent = "Открываю страницу оплаты…";
+      window.location.href = payment.confirmationUrl;
+    } catch {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.innerHTML = '<span>Перейти к оплате</span><span class="arrow" aria-hidden="true">→</span>';
+      }
+      if (leadStatus) {
+        leadStatus.textContent = "Не удалось открыть оплату. Проверьте поля и попробуйте ещё раз.";
+      }
     }
   });
-});
-
-if (telegramDemoVideo) {
-  const phoneFrame = telegramDemoVideo.closest(".phone-frame");
-
-  telegramDemoVideo.addEventListener("loadeddata", () => {
-    phoneFrame?.classList.add("has-demo-video");
-  });
-
-  telegramDemoVideo.addEventListener("play", () => {
-    phoneFrame?.classList.add("is-video-playing");
-  });
-
-  telegramDemoVideo.addEventListener("pause", () => {
-    phoneFrame?.classList.remove("is-video-playing");
-  });
-
-  telegramDemoVideo.addEventListener("ended", () => {
-    phoneFrame?.classList.remove("is-video-playing");
-  });
-
-  telegramDemoVideo.addEventListener("error", () => {
-    phoneFrame?.classList.remove("has-demo-video");
-  });
-
-  if ("IntersectionObserver" in window && phoneFrame) {
-    const videoVisibilityObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting && !telegramDemoVideo.paused) {
-            telegramDemoVideo.pause();
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-
-    videoVisibilityObserver.observe(phoneFrame);
-  }
 }
-
-videoPlayOverlay?.addEventListener("click", () => {
-  telegramDemoVideo?.play().catch(() => {});
-});
-
-const motionTargets = document.querySelectorAll(
-  ".section-heading, .advantage-grid article, .case-grid article, .included-item, .price-card, .form-copy, .lead-form, .business-card, .faq-list details"
-);
-
-if ("IntersectionObserver" in window) {
-  motionTargets.forEach((target, index) => {
-    target.classList.add("motion-reveal");
-    target.style.setProperty("--motion-delay", `${Math.min(index % 4, 3) * 55}ms`);
-  });
-
-  const motionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          motionObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.14 }
-  );
-
-  motionTargets.forEach((target) => motionObserver.observe(target));
-} else {
-  motionTargets.forEach((target) => target.classList.add("is-visible"));
-}
-
-leadForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const formData = new FormData(leadForm);
-  const submitButton = leadForm.querySelector("button[type='submit']");
-  const lead = buildLeadPayload(formData);
-
-  submitButton.disabled = true;
-  submitButton.textContent = "Создаю платеж...";
-  leadStatus.textContent = "Создаю платеж...";
-
-  try {
-    const payment = await createPayment(lead);
-    localStorage.setItem(PENDING_LEAD_KEY, JSON.stringify({ ...lead, paymentId: payment.paymentId }));
-    leadStatus.textContent = "Открываю страницу оплаты...";
-    window.location.href = payment.confirmationUrl;
-  } catch (error) {
-    submitButton.disabled = false;
-    submitButton.textContent = "Заполнить и перейти к оплате";
-    leadStatus.textContent = "Не удалось открыть оплату. Проверьте поля и попробуйте еще раз.";
-  }
-});
 
 handlePaymentReturn();
