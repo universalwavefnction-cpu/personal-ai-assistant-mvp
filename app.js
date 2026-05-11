@@ -1,7 +1,8 @@
-/* wavebotai /dev/ — production flow: YooKassa + helpers. */
+/* wavebotai — production flow: YooKassa + Metrika goals + helpers. */
 
 const PENDING_LEAD_KEY = "wavebotai_pending_paid_lead";
 const SENT_LEAD_KEY = "wavebotai_sent_paid_lead";
+const METRIKA_COUNTER = 109144424;
 
 const leadForm = document.getElementById("leadForm");
 const leadStatus = document.getElementById("leadStatus");
@@ -14,12 +15,48 @@ const phoneFrame = document.getElementById("phoneFrame");
 const stickyCta = document.querySelector("[data-sticky-cta]");
 const formSection = document.getElementById("request");
 
-/* ---------- Product preselect on pricing-card click ---------- */
+/* ---------- Metrika goal helper ---------- */
+function reachGoal(name, params) {
+  if (typeof window.ym !== "function") return;
+  try {
+    if (params) window.ym(METRIKA_COUNTER, "reachGoal", name, params);
+    else window.ym(METRIKA_COUNTER, "reachGoal", name);
+  } catch {
+    /* never let analytics break the page */
+  }
+}
+
+/* ---------- Goal: cta_click — any hero/header/sticky CTA ---------- */
+document.querySelectorAll('a[href="#request"], .header-cta, .sticky-cta, .hero-actions .primary-button').forEach((el) => {
+  el.addEventListener("click", () => reachGoal("cta_click", { source: el.className || "unknown" }));
+});
+
+/* ---------- Goal: pricing_choice — picked a pricing tier ---------- */
 productChoiceLinks.forEach((link) => {
   link.addEventListener("click", () => {
     if (productSelect) productSelect.value = link.dataset.product || "test";
+    reachGoal("pricing_choice", { tier: link.dataset.product || "test" });
   });
 });
+
+/* ---------- Goal: telegram_contact — opened the t.me link ---------- */
+document.querySelectorAll('a[href^="https://t.me/"]').forEach((el) => {
+  el.addEventListener("click", () => reachGoal("telegram_contact"));
+});
+
+/* ---------- Goal: form_started — fires once when user first focuses any form field ---------- */
+let formStartedFired = false;
+if (leadForm) {
+  leadForm.addEventListener(
+    "focusin",
+    () => {
+      if (formStartedFired) return;
+      formStartedFired = true;
+      reachGoal("form_started");
+    },
+    { once: false },
+  );
+}
 
 /* ---------- Sticky CTA: hide when form is visible ---------- */
 if (stickyCta && formSection && "IntersectionObserver" in window) {
@@ -261,6 +298,10 @@ async function handlePaymentReturn() {
     await checkPaymentAndSendLead(lead);
     localStorage.setItem(SENT_LEAD_KEY, lead.leadId);
     localStorage.removeItem(PENDING_LEAD_KEY);
+    reachGoal("payment_success", {
+      tier: lead.product || "test",
+      amount: lead.product === "regular" ? 8000 : 4000,
+    });
     if (leadStatus) {
       leadStatus.textContent =
         "Оплата подтверждена. Заявка отправлена мне в Telegram, я напишу вам после проверки.";
@@ -292,6 +333,10 @@ if (leadForm) {
         PENDING_LEAD_KEY,
         JSON.stringify({ ...lead, paymentId: payment.paymentId }),
       );
+      reachGoal("payment_initiated", {
+        tier: lead.product || "test",
+        amount: lead.product === "regular" ? 8000 : 4000,
+      });
       if (leadStatus) leadStatus.textContent = "Открываю страницу оплаты…";
       window.location.href = payment.confirmationUrl;
     } catch {
