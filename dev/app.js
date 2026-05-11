@@ -36,6 +36,8 @@ if (stickyCta && formSection && "IntersectionObserver" in window) {
 
 /* ---------- Hero video: autoplay-muted-loop with graceful fallback ---------- */
 if (heroVideo) {
+  let hasPlayedOnce = false;
+
   function showPlayButton() {
     if (heroVideoPlay) heroVideoPlay.classList.add("is-visible");
   }
@@ -43,16 +45,24 @@ if (heroVideo) {
     if (heroVideoPlay) heroVideoPlay.classList.remove("is-visible");
   }
 
-  // Always start in paused / awaiting-click state.
+  // Big branded play button only for the never-played-yet state.
   showPlayButton();
 
   heroVideo.addEventListener("loadeddata", () => {
     phoneFrame?.classList.add("has-demo-video");
   });
 
-  heroVideo.addEventListener("playing", hidePlayButton);
-  heroVideo.addEventListener("pause", showPlayButton);
-  heroVideo.addEventListener("ended", showPlayButton);
+  heroVideo.addEventListener("playing", () => {
+    hasPlayedOnce = true;
+    hidePlayButton();
+  });
+  // After first play, leave subsequent pauses to native controls — don't re-cover the video.
+  heroVideo.addEventListener("pause", () => {
+    if (!hasPlayedOnce) showPlayButton();
+  });
+  heroVideo.addEventListener("ended", () => {
+    if (!hasPlayedOnce) showPlayButton();
+  });
 
   heroVideo.addEventListener("error", () => {
     phoneFrame?.classList.add("video-failed");
@@ -62,13 +72,14 @@ if (heroVideo) {
 
   function togglePlay() {
     if (heroVideo.paused || heroVideo.ended) {
+      heroVideo.muted = false;
       heroVideo.play().catch(() => {});
     } else {
       heroVideo.pause();
     }
   }
+  // Custom overlay only — native controls handle clicks on the video itself.
   heroVideoPlay?.addEventListener("click", togglePlay);
-  heroVideo.addEventListener("click", togglePlay);
 
   // Pause when scrolled out of view. Do NOT auto-resume — user must click play.
   if ("IntersectionObserver" in window && phoneFrame) {
