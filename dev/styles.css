@@ -772,6 +772,28 @@ select {
   line-height: 1.35;
 }
 
+.proof-models .model-stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 6px;
+  font-family: Manrope, sans-serif;
+  font-size: 0.76rem;
+  letter-spacing: -0.005em;
+}
+
+.model-chip {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-weight: 800;
+  letter-spacing: 0.005em;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
 /* ============================
    Dialogs section (the upgrade)
    ============================ */
