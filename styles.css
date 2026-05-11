@@ -185,7 +185,7 @@ select {
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr);
   gap: 56px;
   align-items: center;
-  padding: 60px max(20px, calc((100% - var(--container)) / 2)) 56px;
+  padding: 80px max(20px, calc((100% - var(--container)) / 2));
   background:
     radial-gradient(80% 60% at 20% 10%, rgba(199, 156, 69, 0.18), transparent 55%),
     linear-gradient(135deg, var(--hero-bg), var(--hero-bg-2));
@@ -346,42 +346,6 @@ select {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.hero-models {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 28px;
-  font-size: 0.86rem;
-  color: var(--hero-faint);
-}
-
-.hero-models-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-right: 4px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--hero-faint);
-}
-
-.hero-models .model-chip {
-  background: rgba(199, 156, 69, 0.16);
-  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
-  color: var(--accent);
-  font-size: 0.78rem;
-  padding: 4px 10px;
-}
-
-.hero-models-tail {
-  margin-left: 4px;
-  font-size: 0.82rem;
-  color: var(--hero-faint);
-}
-
 .trust-strip {
   display: flex;
   flex-wrap: wrap;
@@ -391,18 +355,6 @@ select {
   color: var(--hero-faint);
 }
 
-
-@media (max-width: 760px) {
-  .hero-models {
-    gap: 6px;
-  }
-
-  .hero-models-label,
-  .hero-models-tail {
-    width: 100%;
-    margin: 0 0 4px;
-  }
-}
 
 .trust-item {
   display: inline-flex;
@@ -810,67 +762,66 @@ select {
    Sections
    ============================ */
 .section {
-  padding: 72px max(20px, calc((100% - var(--container)) / 2));
+  padding: 100px max(20px, calc((100% - var(--container)) / 2));
 }
 
-/* Cream stats strip — transition band between dark hero and content */
-.stats-strip {
-  padding: 36px max(20px, calc((100% - var(--container)) / 2));
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-}
-
-.stats-strip-inner {
+/* Social-proof strip — sits below the dark hero, before sections */
+.proof-strip {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 32px;
-  max-width: var(--container);
-  margin: 0 auto;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  padding: 40px max(20px, calc((100% - var(--container)) / 2));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-alt);
 }
 
-.stats-stat {
+.proof-stat {
+  text-align: center;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  text-align: center;
 }
 
-.stats-stat strong {
+.proof-stat strong {
   font-family: "Fraunces", Georgia, serif;
-  font-size: 2.1rem;
+  font-size: 1.85rem;
   font-weight: 600;
-  letter-spacing: -0.015em;
   color: var(--ink);
+  letter-spacing: -0.01em;
   line-height: 1;
 }
 
-.stats-stat span {
-  font-size: 0.88rem;
+.proof-stat span {
+  font-size: 0.86rem;
   color: var(--muted);
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
-@media (max-width: 600px) {
-  .stats-strip {
+.proof-models .model-stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 6px;
+  font-family: Manrope, sans-serif;
+  font-size: 0.76rem;
+  letter-spacing: -0.005em;
+}
+
+@media (max-width: 1080px) {
+  .proof-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+}
+
+@media (max-width: 460px) {
+  .proof-strip {
+    grid-template-columns: 1fr;
+    gap: 18px;
     padding: 28px 18px;
   }
-
-  .stats-strip-inner {
-    gap: 16px;
-  }
-
-  .stats-stat strong {
-    font-size: 1.4rem;
-  }
-
-  .stats-stat span {
-    font-size: 0.74rem;
-  }
-}
-
-/* First content section after the stats strip — slightly tighter top */
-.stats-strip + .section {
-  padding-top: 64px;
 }
 
 .section-heading {
