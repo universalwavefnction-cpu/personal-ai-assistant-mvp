@@ -68,7 +68,12 @@ export async function onRequestPost({ request, env }) {
   }
 
   const origin = new URL(request.url).origin;
-  const returnUrl = env.YOOKASSA_RETURN_URL || `${origin}/?payment=return`;
+  let returnUrl = env.YOOKASSA_RETURN_URL || `${origin}/?payment=return`;
+  // Allow callers to override the return path (e.g. /dev/) — same-origin only.
+  const requestedReturnPath = clean(payload.returnPath, 80);
+  if (requestedReturnPath && requestedReturnPath.startsWith("/") && !requestedReturnPath.startsWith("//")) {
+    returnUrl = `${origin}${requestedReturnPath}${requestedReturnPath.includes("?") ? "&" : "?"}payment=return`;
+  }
   const yookassaPayload = {
     amount: {
       value: product.amount,
