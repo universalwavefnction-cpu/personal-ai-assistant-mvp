@@ -857,7 +857,12 @@ select {
    Sections
    ============================ */
 .section {
-  padding: 100px max(20px, calc((100% - var(--container)) / 2));
+  padding: 72px max(20px, calc((100% - var(--container)) / 2));
+}
+
+/* First section after the dark hero — no top whitespace gap */
+.hero + .section {
+  padding-top: 56px;
 }
 
 .section-heading {
