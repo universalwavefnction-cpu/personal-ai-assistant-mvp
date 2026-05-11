@@ -403,6 +403,11 @@ select {
   animation: phone-float 6s ease-in-out infinite;
 }
 
+.phone-frame-video {
+  padding: 12px 12px 12px;
+  background: #000;
+}
+
 @keyframes phone-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -483,6 +488,13 @@ select {
   border: 1px solid var(--hero-line);
 }
 
+.video-frame-full {
+  aspect-ratio: 9 / 19.5;
+  max-height: 620px;
+  border-radius: 26px;
+  border: 0;
+}
+
 .hero-video {
   width: 100%;
   height: 100%;
@@ -544,7 +556,7 @@ select {
 }
 
 .video-caption {
-  margin: 12px 0 0;
+  margin: 16px 0 0;
   text-align: center;
   font-size: 0.74rem;
   font-weight: 700;
@@ -874,6 +886,113 @@ select {
   color: var(--muted);
   font-size: 0.86rem;
   line-height: 1.5;
+}
+
+/* ============================
+   Advantages (6 cards + video phone)
+   ============================ */
+.advantages-section {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.advantage-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.55fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.advantage-video {
+  position: sticky;
+  top: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-frame-secondary {
+  width: 280px;
+  animation: phone-float 7s ease-in-out infinite;
+}
+
+.phone-frame-secondary .video-frame-full {
+  max-height: 540px;
+}
+
+.advantage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.advantage-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.advantage-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.adv-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.adv-icon.code-icon {
+  font-size: 0.9rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.advantage-card h3 {
+  margin: 4px 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.advantage-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 1080px) {
+  .advantage-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .advantage-video {
+    position: static;
+    order: -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .advantage-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============================

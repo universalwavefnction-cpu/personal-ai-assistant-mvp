@@ -71,16 +71,9 @@
         </div>
 
         <div class="hero-visual" aria-label="Демо ассистента в Telegram">
-          <div class="phone-frame" id="phoneFrame">
+          <div class="phone-frame phone-frame-video" id="phoneFrame">
             <div class="phone-notch" aria-hidden="true"></div>
-            <div class="telegram-header">
-              <span class="bot-avatar" aria-hidden="true">A</span>
-              <div>
-                <strong>Ваш AI-ассистент</strong>
-                <span><span class="online-dot"></span>online</span>
-              </div>
-            </div>
-            <div class="video-frame">
+            <div class="video-frame video-frame-full">
               <video
                 id="heroVideo"
                 class="hero-video"
@@ -119,8 +112,8 @@
                 </div>
               </div>
             </div>
-            <p class="video-caption">Настоящая запись · без монтажа</p>
           </div>
+          <p class="video-caption">Настоящая запись · без монтажа</p>
           <div class="phone-glow" aria-hidden="true"></div>
         </div>
       </section>
@@ -239,6 +232,68 @@
               Custom Soul: тон бренда, FAQ, запреты, типовые ответы.
             </p>
           </article>
+        </div>
+      </section>
+
+      <!-- ADVANTAGES — 6 cards + embedded video centerpiece -->
+      <section class="section advantages-section" id="advantages">
+        <div class="section-heading">
+          <p class="eyebrow">Преимущества</p>
+          <h2>Это не разовый чат. Это система, которая растёт вместе с вами.</h2>
+        </div>
+
+        <div class="advantage-layout">
+          <div class="advantage-video">
+            <div class="phone-frame phone-frame-video phone-frame-secondary" aria-label="Реальная запись Telegram-чата">
+              <div class="phone-notch" aria-hidden="true"></div>
+              <div class="video-frame video-frame-full">
+                <video
+                  class="hero-video"
+                  src="/assets/telegram-demo.mp4"
+                  muted
+                  loop
+                  autoplay
+                  playsinline
+                  preload="metadata"
+                  aria-label="Запись экрана: настоящий Telegram-диалог"
+                ></video>
+              </div>
+            </div>
+            <p class="video-caption">Так выглядит работа в Telegram</p>
+          </div>
+
+          <div class="advantage-grid">
+            <article class="advantage-card">
+              <span class="adv-icon" aria-hidden="true">◎</span>
+              <h3>Память и контекст</h3>
+              <p>Учитывает ваши материалы, проекты, правила, стиль. Не нужно каждый раз объяснять заново.</p>
+            </article>
+            <article class="advantage-card">
+              <span class="adv-icon" aria-hidden="true">↗</span>
+              <h3>Становится умнее с вами</h3>
+              <p>Вы добавляете файлы, заметки, примеры, обратную связь — система постепенно лучше понимает, как помогать.</p>
+            </article>
+            <article class="advantage-card">
+              <span class="adv-icon" aria-hidden="true">✦</span>
+              <h3>Вторая пара рук за дни</h3>
+              <p>Пишете или диктуете в Telegram — ассистент понимает голос как человек: разбирает смысл и отвечает по делу.</p>
+            </article>
+            <article class="advantage-card">
+              <span class="adv-icon" aria-hidden="true">▣</span>
+              <h3>Работает с файлами</h3>
+              <p>PDF, заметки, конспекты, инструкции, статьи, скрипты, черновики — всё доступно прямо из чата.</p>
+            </article>
+            <article class="advantage-card">
+              <span class="adv-icon code-icon" aria-hidden="true">&lt;/&gt;</span>
+              <h3>Создаёт, пишет, кодит</h3>
+              <p>Посты, письма, сайты, код, прототипы, таблицы, исследования — задачи, где нужен сильный интеллект.</p>
+            </article>
+            <article class="advantage-card">
+              <span class="adv-icon" aria-hidden="true">⇄</span>
+              <h3>Смена моделей под задачу</h3>
+              <p>GPT-5 для глубокого мышления, Claude Opus 4.7 для письма, DeepSeek для скорости — переключаетесь сами.</p>
+            </article>
+          </div>
         </div>
       </section>
 
