@@ -72,6 +72,7 @@
 
         <div class="hero-visual" aria-label="Демо ассистента в Telegram">
           <div class="phone-frame phone-frame-video" id="phoneFrame">
+            <span class="phone-buttons-left" aria-hidden="true"></span>
             <div class="phone-notch" aria-hidden="true"></div>
             <div class="video-frame video-frame-full">
               <video
@@ -235,65 +236,44 @@
         </div>
       </section>
 
-      <!-- ADVANTAGES — 6 cards + embedded video centerpiece -->
+      <!-- ADVANTAGES — clean 3×2 white-card grid -->
       <section class="section advantages-section" id="advantages">
         <div class="section-heading">
           <p class="eyebrow">Преимущества</p>
           <h2>Это не разовый чат. Это система, которая растёт вместе с вами.</h2>
         </div>
 
-        <div class="advantage-layout">
-          <div class="advantage-video">
-            <div class="phone-frame phone-frame-video phone-frame-secondary" aria-label="Реальная запись Telegram-чата">
-              <div class="phone-notch" aria-hidden="true"></div>
-              <div class="video-frame video-frame-full">
-                <video
-                  class="hero-video"
-                  src="/assets/telegram-demo.mp4"
-                  muted
-                  loop
-                  autoplay
-                  playsinline
-                  preload="metadata"
-                  aria-label="Запись экрана: настоящий Telegram-диалог"
-                ></video>
-              </div>
-            </div>
-            <p class="video-caption">Так выглядит работа в Telegram</p>
-          </div>
-
-          <div class="advantage-grid">
-            <article class="advantage-card">
-              <span class="adv-icon" aria-hidden="true">◎</span>
-              <h3>Память и контекст</h3>
-              <p>Учитывает ваши материалы, проекты, правила, стиль. Не нужно каждый раз объяснять заново.</p>
-            </article>
-            <article class="advantage-card">
-              <span class="adv-icon" aria-hidden="true">↗</span>
-              <h3>Становится умнее с вами</h3>
-              <p>Вы добавляете файлы, заметки, примеры, обратную связь — система постепенно лучше понимает, как помогать.</p>
-            </article>
-            <article class="advantage-card">
-              <span class="adv-icon" aria-hidden="true">✦</span>
-              <h3>Вторая пара рук за дни</h3>
-              <p>Пишете или диктуете в Telegram — ассистент понимает голос как человек: разбирает смысл и отвечает по делу.</p>
-            </article>
-            <article class="advantage-card">
-              <span class="adv-icon" aria-hidden="true">▣</span>
-              <h3>Работает с файлами</h3>
-              <p>PDF, заметки, конспекты, инструкции, статьи, скрипты, черновики — всё доступно прямо из чата.</p>
-            </article>
-            <article class="advantage-card">
-              <span class="adv-icon code-icon" aria-hidden="true">&lt;/&gt;</span>
-              <h3>Создаёт, пишет, кодит</h3>
-              <p>Посты, письма, сайты, код, прототипы, таблицы, исследования — задачи, где нужен сильный интеллект.</p>
-            </article>
-            <article class="advantage-card">
-              <span class="adv-icon" aria-hidden="true">⇄</span>
-              <h3>Смена моделей под задачу</h3>
-              <p>GPT-5 для глубокого мышления, Claude Opus 4.7 для письма, DeepSeek для скорости — переключаетесь сами.</p>
-            </article>
-          </div>
+        <div class="advantage-grid">
+          <article class="advantage-card">
+            <span class="adv-icon" aria-hidden="true">◎</span>
+            <h3>Память и контекст</h3>
+            <p>Учитывает ваши материалы, проекты, правила, стиль. Не нужно каждый раз объяснять заново.</p>
+          </article>
+          <article class="advantage-card">
+            <span class="adv-icon" aria-hidden="true">↗</span>
+            <h3>Становится умнее с вами</h3>
+            <p>Вы добавляете файлы, заметки, примеры, обратную связь — система постепенно лучше понимает, как помогать.</p>
+          </article>
+          <article class="advantage-card">
+            <span class="adv-icon" aria-hidden="true">✦</span>
+            <h3>Вторая пара рук за дни</h3>
+            <p>Пишете или диктуете в Telegram — ассистент понимает голос как человек: разбирает смысл и отвечает по делу.</p>
+          </article>
+          <article class="advantage-card">
+            <span class="adv-icon" aria-hidden="true">▣</span>
+            <h3>Работает с файлами</h3>
+            <p>PDF, заметки, конспекты, инструкции, статьи, скрипты, черновики — всё доступно прямо из чата.</p>
+          </article>
+          <article class="advantage-card">
+            <span class="adv-icon code-icon" aria-hidden="true">&lt;/&gt;</span>
+            <h3>Создаёт, пишет, кодит</h3>
+            <p>Посты, письма, сайты, код, прототипы, таблицы, исследования — задачи, где нужен сильный интеллект.</p>
+          </article>
+          <article class="advantage-card">
+            <span class="adv-icon" aria-hidden="true">⇄</span>
+            <h3>Смена моделей под задачу</h3>
+            <p>GPT-5 для глубокого мышления, Claude Opus 4.7 для письма, DeepSeek для скорости — переключаетесь сами.</p>
+          </article>
         </div>
       </section>
 
@@ -412,10 +392,10 @@
             <p class="price-caption">Проверить, что бот работает под вашу задачу.</p>
             <ul class="price-features">
               <li><span class="check">✓</span> Бот собирается за 24ч</li>
-              <li><span class="check">✓</span> Голос, файлы, базовый профиль</li>
+              <li><span class="check">✓</span> Голос, файлы, ваши материалы</li>
               <li><span class="check">✓</span> Доступ к GPT-5 / Claude / DeepSeek</li>
+              <li><span class="check">✓</span> Custom Soul: тон, FAQ, правила</li>
               <li><span class="cross">−</span> Ограниченный лимит токенов</li>
-              <li><span class="cross">−</span> Без Custom Soul</li>
             </ul>
             <a class="primary-button full js-product-choice" href="#request" data-product="test">
               Получить тестовую версию
@@ -425,12 +405,12 @@
             <div class="price-topline">Полный пилот</div>
             <h3>Бот с токенами</h3>
             <p class="price">8 000 ₽<em>разово</em></p>
-            <p class="price-caption">Запуск без ограничений + пакет токенов.</p>
+            <p class="price-caption">Всё то же, плюс пакет токенов на активную работу.</p>
             <ul class="price-features">
               <li><span class="check">✓</span> Всё из тестовой версии</li>
+              <li><span class="check">✓</span> Custom Soul без ограничений</li>
               <li><span class="check">✓</span> Пакет токенов на месяц активной работы</li>
-              <li><span class="check">✓</span> Custom Soul: тон, FAQ, правила</li>
-              <li><span class="check">✓</span> Подключение ваших материалов в память</li>
+              <li><span class="check">✓</span> Возможность пополнять токены потом</li>
               <li><span class="check">✓</span> Приоритетная поддержка в Telegram</li>
             </ul>
             <a class="primary-button full featured-cta js-product-choice" href="#request" data-product="regular">

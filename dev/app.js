@@ -36,37 +36,23 @@ if (stickyCta && formSection && "IntersectionObserver" in window) {
 
 /* ---------- Hero video: autoplay-muted-loop with graceful fallback ---------- */
 if (heroVideo) {
-  let started = false;
-
   function showPlayButton() {
     if (heroVideoPlay) heroVideoPlay.classList.add("is-visible");
   }
-
   function hidePlayButton() {
     if (heroVideoPlay) heroVideoPlay.classList.remove("is-visible");
   }
 
+  // Always start in paused / awaiting-click state.
+  showPlayButton();
+
   heroVideo.addEventListener("loadeddata", () => {
     phoneFrame?.classList.add("has-demo-video");
-    if (!started) {
-      const playAttempt = heroVideo.play();
-      if (playAttempt && typeof playAttempt.then === "function") {
-        playAttempt
-          .then(() => {
-            started = true;
-            hidePlayButton();
-          })
-          .catch(() => {
-            showPlayButton();
-          });
-      }
-    }
   });
 
   heroVideo.addEventListener("playing", hidePlayButton);
-  heroVideo.addEventListener("pause", () => {
-    if (heroVideo.currentTime > 0 && !heroVideo.ended) showPlayButton();
-  });
+  heroVideo.addEventListener("pause", showPlayButton);
+  heroVideo.addEventListener("ended", showPlayButton);
 
   heroVideo.addEventListener("error", () => {
     phoneFrame?.classList.add("video-failed");
@@ -74,25 +60,38 @@ if (heroVideo) {
     hidePlayButton();
   });
 
-  heroVideoPlay?.addEventListener("click", () => {
-    heroVideo.play().catch(() => {});
-  });
+  function togglePlay() {
+    if (heroVideo.paused || heroVideo.ended) {
+      heroVideo.play().catch(() => {});
+    } else {
+      heroVideo.pause();
+    }
+  }
+  heroVideoPlay?.addEventListener("click", togglePlay);
+  heroVideo.addEventListener("click", togglePlay);
 
-  // Pause when off-screen to save bandwidth
+  // Pause when scrolled out of view. Do NOT auto-resume — user must click play.
   if ("IntersectionObserver" in window && phoneFrame) {
     const vis = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting && !heroVideo.paused) heroVideo.pause();
-          else if (entry.isIntersecting && heroVideo.paused && !heroVideo.ended) {
-            heroVideo.play().catch(() => {});
-          }
         });
       },
       { threshold: 0.15 },
     );
     vis.observe(phoneFrame);
   }
+
+  // Pause any other autoplay videos (e.g. the old advantages-section one if cached) too
+  document.querySelectorAll("video").forEach((v) => {
+    if (v !== heroVideo) {
+      v.removeAttribute("autoplay");
+      try {
+        v.pause();
+      } catch {}
+    }
+  });
 }
 
 /* ---------- Subtle scroll reveal (additive only) ---------- */
