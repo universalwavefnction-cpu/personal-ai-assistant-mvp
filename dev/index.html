@@ -449,6 +449,7 @@
             <select name="product" id="productSelect" required>
               <option value="test">Тестовая — 4 000 ₽</option>
               <option value="regular">Полная — 8 000 ₽</option>
+              <option value="demo">🧪 Тест-платёж 1 ₽ — проверить флоу</option>
             </select>
           </label>
           <fieldset class="chip-field">
@@ -482,16 +483,6 @@
             <a class="text-link" href="https://t.me/universal_wavefunction" target="_blank" rel="noreferrer">
               Написать @universal_wavefunction →
             </a>
-          </div>
-          <div class="dev-test-strip" aria-label="Только для отладки">
-            <span class="dev-test-label">Только на /dev/</span>
-            <button type="button" id="testPaymentBtn" class="dev-test-btn">
-              🧪 Тест-платёж 1 ₽ — проверить ЮKassa flow
-            </button>
-            <p class="dev-test-hint">
-              Создаст реальный платёж на 1 рубль (shopId 1351510). После успеха —
-              такая же заявка прилетает в Telegram, как при настоящей оплате.
-            </p>
           </div>
         </form>
       </section>
